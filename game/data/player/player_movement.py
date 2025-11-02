@@ -21,8 +21,8 @@ class PlayerMovement:
 
       player.dx += (player.vx*general_velocity) #move the player by velocity units every tick
       player.dy += (player.vy*general_velocity)
-      if keystate[pygame.K_SPACE]:
-         DrawFunction.draw_function(sympy_expression, player, screen)
    pass
+
+
 
 
