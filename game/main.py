@@ -10,7 +10,8 @@ from game.data.objects.textbox import TextBox
 from game.data.objects.equation import EquationObject
 from game.data.player.player_func import PlayerFunc
 from game.data.objects.point import PointObject
-
+from game.data.operations.operationself import OperationsSelf
+from game.modules.generateimage import GenerateImage
 pygame.display.set_caption("spinNull0")
 
 #REGARDLESS TO SAVE MEMORY
@@ -25,6 +26,7 @@ sound_effect_null_robot = pygame.mixer.Sound("game/resources/sound/voice_memos/n
 sound_effect_electric = pygame.mixer.Sound("game/resources/sound/ambient_noise/elec.mp3")
 sound_effect_powerup = pygame.mixer.Sound("game/resources/sound/ambient_noise/powerup.wav")
 sound_effect_blast = pygame.mixer.Sound("game/resources/sound/ambient_noise/blast.wav")
+sound_effect_interaction = pygame.mixer.Sound("game/resources/sound/menu_click/menuclick.wav")
 #FONTS PRELOADED
 font_cmu_rm = pygame.font.Font('game/resources/fonts/cmunrm.ttf', 30)
 font_cmu_bld = pygame.font.Font('game/resources/fonts/cmunbx.ttf', 60)
@@ -33,7 +35,7 @@ font_cmu_bld = pygame.font.Font('game/resources/fonts/cmunbx.ttf', 60)
 
 
 def intro_animation(screen):
-   
+   sound_effect_null_robot.play()
    grid_spacing = 840 
    width, height = screen.get_size()
    backgroundIntro = pygame.Surface((width, height))
@@ -54,7 +56,7 @@ def intro_animation(screen):
    factor_speed = 0.002
 
    #Logo Text
-   text_zero = font_cmu_bld.render("NULL-0", True, (255, 255, 255)) #initialize
+   text_zero = font_cmu_bld.render("NULL0", True, (255, 255, 255)) #initialize
    text_zero_pos = text_zero.get_rect(centerx = (grid_spacing_x), y = (grid_spacing_y - 40))
    backgroundIntro.blit(text_zero, text_zero_pos)
    
@@ -62,7 +64,7 @@ def intro_animation(screen):
    medium_purple = [147, 112, 219]
    k = 0
    while k < 1:
-      text_zero = font_cmu_bld.render("NULL-0", True, (k*255, k*255, k*255))
+      text_zero = font_cmu_bld.render("NULL0", True, (k*255, k*255, k*255))
       backgroundIntro.blit(text_zero, text_zero_pos)
       pygame.draw.line( backgroundIntro, (medium_purple), (distposx, grid_spacing_y), (distposx - k*logo, distnegy + k*logo))
       pygame.draw.line( backgroundIntro, (medium_purple), (distnegx, grid_spacing_y), (distnegx + k*logo, distnegy + k*logo))
@@ -113,8 +115,7 @@ def intro_animation(screen):
          pygame.display.flip()
  
 
-   sound_effect_null_robot.play()
-   sound_effect_electric.play()
+   sound_effect_blast.play()
 pass
 
 intro_animation(screen)
@@ -127,7 +128,7 @@ equationObject = EquationObject(200, 200)
 
 #TESTING
 init_printing(use_unicode=False)
-sympy_operation = (6*(sin(x)))
+sympy_operation = 1/x**2
 latex_expr = EquationObject.sympy_to_latex(sympy_operation)
 
 
@@ -136,9 +137,6 @@ surfaceImageEquation = EquationObject.render_equation_copy(equationObject)
 rect = surfaceImageEquation.get_rect()
 function_storage = []
 quit = False
-
-
-
 
 
 def refresh_everything_in_game():
@@ -178,8 +176,38 @@ while not quit:
             function_storage = function_plots
             sound_effect_function_draw.play()
             PointObject.render_graph(function_storage, screen)
-            
+            sound_effect_interaction.play()
 
+         if event.key == pygame.K_1:
+            sound_effect_interaction.play()
+            sympy_operation, surfaceImageEquation = OperationsSelf.operation_addition(equationObject, sympy_operation, 5)
+         if event.key == pygame.K_2:
+            sound_effect_interaction.play()
+            sympy_operation, surfaceImageEquation = OperationsSelf.operation_subtraction(equationObject, sympy_operation, 5)
+         if event.key == pygame.K_3:
+            sound_effect_interaction.play()
+            sympy_operation, surfaceImageEquation = OperationsSelf.operation_multiplication(equationObject, sympy_operation, 5)
+         if event.key == pygame.K_4:
+            sound_effect_interaction.play()
+            sympy_operation, surfaceImageEquation = OperationsSelf.operation_division(equationObject, sympy_operation, 5)
+         if event.key == pygame.K_5:
+            sound_effect_interaction.play()
+            sympy_operation, surfaceImageEquation = OperationsSelf.operation_to_power(equationObject, sympy_operation, 5)
+         if event.key == pygame.K_6:
+            sound_effect_interaction.play()
+            sympy_operation, surfaceImageEquation = OperationsSelf.operation_derivative(equationObject, sympy_operation)
+         if event.key == pygame.K_7:
+            sound_effect_interaction.play()
+            sympy_operation, surfaceImageEquation = OperationsSelf.operation_integration(equationObject, sympy_operation)
+         if event.key == pygame.K_8:
+            sound_effect_interaction.play()
+            sympy_operation, surfaceImageEquation = OperationsSelf.operation_exponentiated(equationObject, sympy_operation, 5)
+         if event.key == pygame.K_9:
+            sound_effect_interaction.play()
+            sympy_operation, surfaceImageEquation = OperationsSelf.operation_root(equationObject, sympy_operation, 5)
+         if event.key == pygame.K_0:
+            sound_effect_interaction.play()
+            sympy_operation, surfaceImageEquation = OperationsSelf.operation_evaluate(equationObject, sympy_operation, 10)
    refresh_everything_in_game()
    clock.tick(60) #Limit the game to 60 fps, also limit physics logic
     
