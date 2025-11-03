@@ -8,7 +8,7 @@ class DrawFunction:
       m = 0
       scale_x = 50
       scale_y = 50
-      numpy_array_x = np.arange(-10, 10, 0.05)
+      numpy_array_x = np.arange(-10, 25, 0.04)
       func = lambdify(x, sympyExpression, 'numpy')
       
       corner_of_screen_x = player.dx - screen.get_size()[0]/2

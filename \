@@ -1,6 +1,5 @@
 from game.modules.modules import * #NOT RECCOMENDED MOST TIMES, BUT IN THIS SITUATION ITS JUST TO PREVENT 6 LINES FROM BEING WRITTEN EVERY TIME
 pygame.init()
-pygame.mixer.init()
 from game.modules.clamp import Clamp
 from game.data.background.background import bounds_x, bounds_y, grid_spacing, GridBackground
 from game.data.display.display import screen, display_info, display_flags
@@ -20,7 +19,7 @@ framerate = 60
 equationObject = EquationObject(200, 200)
 
 init_printing(use_unicode=False)
-sympy_operation = (6*(sin(x)))
+sympy_operation = ((10*sin(x)))
 
 latex_expr = EquationObject.sympy_to_latex(sympy_operation)
 
@@ -33,7 +32,7 @@ quit = False
 
 def refresh_everything():
    keystate = pygame.key.get_pressed() #get the currently held keys
-   PlayerMovement.player_movement(keystate, player, sympy_operation, screen, bounds_x, bounds_y)
+   PlayerMovement.player_movement(keystate, player, sympy_operation, screen)
    RenderPlayer.render_player(player, screen) #render the player
    EquationObject.move_equation(player, bounds_x, bounds_y, screen, rect, surfaceImageEquation, equationObject)
    pygame.display.flip() #update the screen
@@ -50,10 +49,7 @@ while not quit:
          if event.key == pygame.K_SPACE:
             function_plots = PlayerFunc.player_func_detect(sympy_operation, player, screen, bounds_x, bounds_y)
             function_storage = function_plots
-            sound_effect = pygame.mixer.Sound("game/data/sound/function_draw/functiondrawingspeddeep.wav") 
-            sound_effect.play()
             PointObject.render_graph(function_storage, screen)
-            
 
    refresh_everything()
    clock.tick(60) #Limit the game to 60 fps, also limit physics logic
