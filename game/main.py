@@ -32,6 +32,9 @@ font_cmu_rm = pygame.font.Font('game/resources/fonts/cmunrm.ttf', 30)
 font_cmu_bld = pygame.font.Font('game/resources/fonts/cmunbx.ttf', 60)
 
 
+def generate_random_numbers(screen):
+   goon = screen
+pass
 
 
 def intro_animation(screen):
@@ -39,67 +42,75 @@ def intro_animation(screen):
    grid_spacing = 840 
    width, height = screen.get_size()
    backgroundIntro = pygame.Surface((width, height))
-   backgroundIntro.fill((0,0,0))
-   
-
-
-   logo = 200
+   backgroundIntro.fill((50,50,50))
+   running = True
    grid_spacing_x = width // 2
    grid_spacing_y = height // 2
-   distnegx = grid_spacing_x - logo
-   distposx = grid_spacing_x + logo
-   distnegy = grid_spacing_y - logo
-   distposy = grid_spacing_y + logo 
-   
-   #m is the increment of lines drawn, factor_speed controls how long it takes for one line to draw
-   m = 0
-   factor_speed = 0.002
+   text_disc = font_cmu_rm.render("PRESS ANY KEY TO SKIP...", True, (255, 255, 255)) #initialize
+   text_disc_pos = text_disc.get_rect(centerx = (grid_spacing_x), y = (2*grid_spacing_y - 100))
+   backgroundIntro.blit(text_disc, text_disc_pos)
+   pygame.display.flip()
+   k = 0 
 
+
+   if running == True:
+      backgroundIntro.fill((0,0,0))
+      logo = 200
+      distnegx = grid_spacing_x - logo
+      distposx = grid_spacing_x + logo
+      distnegy = grid_spacing_y - logo
+      distposy = grid_spacing_y + logo 
+      while k < 1: 
+         backgroundIntro.blit(text_disc, text_disc_pos)
+         pygame.display.flip()
+         for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+               return
+         k += 0.0002
+      #m is the increment of lines drawn, factor_speed controls how long it takes for one line to draw
+      m = 0
+      factor_speed = 0.002
    #Logo Text
-   text_zero = font_cmu_bld.render("NULL0", True, (255, 255, 255)) #initialize
-   text_zero_pos = text_zero.get_rect(centerx = (grid_spacing_x), y = (grid_spacing_y - 40))
-   backgroundIntro.blit(text_zero, text_zero_pos)
+      text_zero = font_cmu_bld.render("NULL0", True, (255, 255, 255)) #initialize
+      text_zero_pos = text_zero.get_rect(centerx = (grid_spacing_x), y = (grid_spacing_y - 40))
+      backgroundIntro.blit(text_zero, text_zero_pos)
    
    #Logo Border [diamond with boreders colored medium purple]
-   medium_purple = [147, 112, 219]
-   k = 0
-   while k < 1:
-      text_zero = font_cmu_bld.render("NULL0", True, (k*255, k*255, k*255))
-      backgroundIntro.blit(text_zero, text_zero_pos)
-      pygame.draw.line( backgroundIntro, (medium_purple), (distposx, grid_spacing_y), (distposx - k*logo, distnegy + k*logo))
-      pygame.draw.line( backgroundIntro, (medium_purple), (distnegx, grid_spacing_y), (distnegx + k*logo, distnegy + k*logo))
-      pygame.draw.line( backgroundIntro, (medium_purple), (distposx, grid_spacing_y), (distposx - k*logo, distposy - k*logo))
-      pygame.draw.line( backgroundIntro, (medium_purple), (distnegx, grid_spacing_y), (distnegx + k*logo, distposy - k*logo))
-      k += factor_speed*0.25
-      screen.blit(backgroundIntro, (0,0))
-      pygame.display.flip()
-      
-   
-   #Horizontal axis drawn first
-   for x in range(1, width//grid_spacing_x):
-      lineposx = x*grid_spacing_x
-      sound_effect_powerup.play()
+      medium_purple = [147, 112, 219]
       k = 0
-      m += 1
-      red_to_white = 255
       while k < 1:
-         pygame.draw.line( backgroundIntro, (red_to_white, 0, 0), (lineposx, 0), (lineposx, k*height)) 
-         k += factor_speed
+         text_zero = font_cmu_bld.render("NULL0", True, (k*255, k*255, k*255))
+         backgroundIntro.blit(text_zero, text_zero_pos)
+         pygame.draw.line( backgroundIntro, (medium_purple), (distposx, grid_spacing_y), (distposx - k*logo, distnegy + k*logo))
+         pygame.draw.line( backgroundIntro, (medium_purple), (distnegx, grid_spacing_y), (distnegx + k*logo, distnegy + k*logo))
+         pygame.draw.line( backgroundIntro, (medium_purple), (distposx, grid_spacing_y), (distposx - k*logo, distposy - k*logo))
+         pygame.draw.line( backgroundIntro, (medium_purple), (distnegx, grid_spacing_y), (distnegx + k*logo, distposy - k*logo))
+         k += factor_speed*0.25
          screen.blit(backgroundIntro, (0,0))
          pygame.display.flip()
-   m = 0
+   #Horizontal axis drawn first
+      for x in range(1, width//grid_spacing_x):
+         lineposx = x*grid_spacing_x
+         sound_effect_powerup.play()
+         k = 0
+         m += 1
+         red_to_white = 255
+         while k < 1:
+            pygame.draw.line( backgroundIntro, (red_to_white, 0, 0), (lineposx, 0), (lineposx, k*height)) 
+            k += factor_speed
+            screen.blit(backgroundIntro, (0,0))
+            pygame.display.flip()
+      m = 0
    
-   text_one = font_cmu_bld.render("NULL", True, (255, 255, 255))
-   text_one_pos = text_one.get_rect(centerx=(width / 2) - 400, y = (height / 2 - 200))
+      text_one = font_cmu_bld.render("NULL", True, (255, 255, 255))
+      text_one_pos = text_one.get_rect(centerx=(width / 2) - 400, y = (height / 2 - 200))
 
 
-
-
-   for y in range(1, height//grid_spacing_y):
-      lineposy = y*grid_spacing_y 
-      sound_effect_powerup.play()
-      k = 0
-      m+=1
+      for y in range(1, height//grid_spacing_y):
+         lineposy = y*grid_spacing_y 
+         sound_effect_powerup.play()
+         k = 0
+         m+=1
       
       while k < 1:
          pygame.draw.line( backgroundIntro, (red_to_white, 0, 0), (0, lineposy), (k*distnegx, lineposy) )
@@ -115,8 +126,38 @@ def intro_animation(screen):
          pygame.display.flip()
  
 
-   sound_effect_blast.play()
+      sound_effect_blast.play()
+      intro_animation
+
 pass
+
+
+def controls(equationObject, player):
+   path_desired = "game/images/operations/"
+   one_add = GenerateImage.render_equation_copy(equationObject, path_desired, "addition.png")
+   two_subtract = GenerateImage.render_equation_copy(equationObject, path_desired, "subtraction.png")
+   three_multiply = GenerateImage.render_equation_copy(equationObject, path_desired, "multiplication.png")
+   four_divide = GenerateImage.render_equation_copy(equationObject, path_desired, "division.png")
+   five_powered = GenerateImage.render_equation_copy(equationObject, path_desired, "powerof.png")
+   six_differentiate = GenerateImage.render_equation_copy(equationObject, path_desired, "derivative.png")
+   seven_integrate = GenerateImage.render_equation_copy(equationObject, path_desired, "integral.png")
+   eight_exponentiate = GenerateImage.render_equation_copy(equationObject, path_desired, "exponentiated.png")
+   nine_root = GenerateImage.render_equation_copy(equationObject, path_desired, "root.png")
+   ten_evaluate = GenerateImage.render_equation_copy(equationObject, path_desired, "evaluated.png")
+   image_list = [one_add, two_subtract, three_multiply, four_divide, five_powered, six_differentiate, seven_integrate, eight_exponentiate, nine_root, ten_evaluate]
+   rect = one_add.get_rect()
+   i = 1
+   text_image_list = []
+   text_image_pos_list = []
+   for image in image_list:
+      
+      j = str(i)
+      i += 1
+      text_image = font_cmu_bld.render(j, True, (255, 255, 255))
+      text_image_pos = text_image.get_rect(x = (rect.x - 100), y = rect.y)
+      text_image_list.append(text_image)
+      text_image_pos_list.append(text_image_pos)
+   return(image_list, text_image_list, text_image_pos_list)
 
 intro_animation(screen)
 GridBackground.gen_background(screen)
@@ -125,10 +166,11 @@ GridBackground.gen_background(screen)
 
 #Creating New Equation Object, don't draw on screen  yet but initialize everything first 
 equationObject = EquationObject(200, 200)
+image_list, text_image_list, text_image_pos_list = controls(equationObject, player)
 
 #TESTING
 init_printing(use_unicode=False)
-sympy_operation = 1/x**2
+sympy_operation = 6*sin(x)
 latex_expr = EquationObject.sympy_to_latex(sympy_operation)
 
 
@@ -144,10 +186,22 @@ def refresh_everything_in_game():
    PlayerMovement.player_movement(keystate, player, sympy_operation, screen, bounds_x, bounds_y)
    RenderPlayer.render_player(player, screen) #render the player
    EquationObject.move_equation(player, bounds_x, bounds_y, screen, rect, surfaceImageEquation, equationObject)
+   update_controls(image_list, text_image_list, text_image_list)
    pygame.display.flip() #update the screen
 
 
-
+def update_controls(image_list, text_image_list, text_image_pos_list):
+   dist_between_imgs_x = 160
+   perched_imgs_where_y = 100
+   k = 0
+   for image in image_list:
+      rect = image.get_rect()
+      rect.x = (200 + k*dist_between_imgs_x)
+      rect.y = (perched_imgs_where_y)
+      text_image = text_image_list[k]
+      text_image_pos = text_image_pos_list[k]
+      screen.blit(image, rect)
+      k += 1
 
 
 
@@ -165,8 +219,6 @@ def refresh_everything_in_game():
 
 while not quit:
    GridBackground.grid_alignment(player, screen)
-
-
    for event in pygame.event.get():
       if event.type == pygame.QUIT:
          quit = True

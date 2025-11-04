@@ -31,7 +31,7 @@ class GenerateImage:
       
    pass
 
-   def render_equation_copy(equationObject):
+   def render_equation_copy(equationObject, path_desired, name_of_file):
       surfaceImageEquation = pygame.Surface((equationObject.length, equationObject.height))
       surfaceImageEquation.fill((255, 255, 255))
       surfaceImageEquation = pygame.image.load(os.path.join(path_desired + name_of_file)) #Make initial surface containing the player's equation
