@@ -12,12 +12,16 @@ from game.data.player.player_func import PlayerFunc
 from game.data.objects.point import PointObject
 from game.data.operations.operationself import OperationsSelf
 from game.modules.generateimage import GenerateImage
+from game.modules.reset_surface import ResetSurface
+from game.data.exceptions.errors import CheckFunctions
 pygame.display.set_caption("spinNull0")
 
 #REGARDLESS TO SAVE MEMORY
 clock = pygame.time.Clock()
+global framerate
 framerate = 60
-
+width, height = screen.get_size()
+surface_inaccessible = pygame.Surface((width, height), pygame.SRCALPHA)
 
 #SOUND EFFECTS
 sound_effect_function_draw = pygame.mixer.Sound("game/resources/sound/function_draw/functiondrawingspeddeep.wav")
@@ -32,13 +36,8 @@ font_cmu_rm = pygame.font.Font('game/resources/fonts/cmunrm.ttf', 30)
 font_cmu_bld = pygame.font.Font('game/resources/fonts/cmunbx.ttf', 60)
 
 
-def generate_random_numbers(screen):
-   goon = screen
-pass
-
 
 def intro_animation(screen):
-   sound_effect_null_robot.play()
    grid_spacing = 840 
    width, height = screen.get_size()
    backgroundIntro = pygame.Surface((width, height))
@@ -46,48 +45,75 @@ def intro_animation(screen):
    running = True
    grid_spacing_x = width // 2
    grid_spacing_y = height // 2
-   text_disc = font_cmu_rm.render("PRESS ANY KEY TO SKIP...", True, (255, 255, 255)) #initialize
-   text_disc_pos = text_disc.get_rect(centerx = (grid_spacing_x), y = (2*grid_spacing_y - 100))
-   backgroundIntro.blit(text_disc, text_disc_pos)
-   pygame.display.flip()
-   k = 0 
-
-
+   
    if running == True:
-      backgroundIntro.fill((0,0,0))
       logo = 200
       distnegx = grid_spacing_x - logo
       distposx = grid_spacing_x + logo
       distnegy = grid_spacing_y - logo
       distposy = grid_spacing_y + logo 
-      while k < 1: 
-         backgroundIntro.blit(text_disc, text_disc_pos)
-         pygame.display.flip()
-         for event in pygame.event.get():
-            if event.type == pygame.KEYDOWN:
-               return
-         k += 0.0002
+      default_pos = (0, 0)
       #m is the increment of lines drawn, factor_speed controls how long it takes for one line to draw
       m = 0
-      factor_speed = 0.002
+      factor_speed = 0.00555 #3 seconds for the k<1 events
+      amplifier = 3
    #Logo Text
+     
+      text_disc = font_cmu_rm.render("PRESS ESC KEY TO SKIP", True, (255, 255, 255))
+      text_disc_pos = text_disc.get_rect(x = (grid_spacing_x - 300), y = (2*grid_spacing_y - 200))
+
       text_zero = font_cmu_bld.render("NULL0", True, (255, 255, 255)) #initialize
       text_zero_pos = text_zero.get_rect(centerx = (grid_spacing_x), y = (grid_spacing_y - 40))
-      backgroundIntro.blit(text_zero, text_zero_pos)
+      #backgroundIntro.blit(text_zero, text_zero_pos)
    
    #Logo Border [diamond with boreders colored medium purple]
       medium_purple = [147, 112, 219]
       k = 0
+      time_surface = pygame.Surface((width, height))
       while k < 1:
+         text_disc = font_cmu_rm.render("PRESS ESC KEY TO SKIP", True, (k*255, k*255, k*255))
+         text_disc_pos = text_disc.get_rect(x = (grid_spacing_x - 175),y = (height//1 - 100 ))
+         j = str(round(3*(1 - k), 4))
+         
+         text_time_left = font_cmu_rm.render(j, True, (255, 255, 255))
+         text_time_left_pos = text_time_left.get_rect(x = (grid_spacing_x + grid_spacing_x//1.2),y = grid_spacing_y//7)
+         time_surface.blit(text_disc, text_disc_pos)
+         time_surface.blit(text_time_left, text_time_left_pos)
+         k += factor_speed
+         screen.blit(time_surface, default_pos) 
+         pygame.display.flip()
+         for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+               if event.key == pygame.K_ESCAPE:
+                  pygame.event.clear()
+                  return("exit intro")
+         clock.tick(framerate)
+         ResetSurface.reset_surface_opaque(time_surface, (0, 0, 0))
+
+
+
+
+
+
+
+
+      ResetSurface.reset_surface_opaque(backgroundIntro, (0, 0, 0))
+      k = 0
+      
+      sound_effect_null_robot.play()
+      while k < 1:
+         
          text_zero = font_cmu_bld.render("NULL0", True, (k*255, k*255, k*255))
          backgroundIntro.blit(text_zero, text_zero_pos)
+         
          pygame.draw.line( backgroundIntro, (medium_purple), (distposx, grid_spacing_y), (distposx - k*logo, distnegy + k*logo))
          pygame.draw.line( backgroundIntro, (medium_purple), (distnegx, grid_spacing_y), (distnegx + k*logo, distnegy + k*logo))
          pygame.draw.line( backgroundIntro, (medium_purple), (distposx, grid_spacing_y), (distposx - k*logo, distposy - k*logo))
          pygame.draw.line( backgroundIntro, (medium_purple), (distnegx, grid_spacing_y), (distnegx + k*logo, distposy - k*logo))
-         k += factor_speed*0.25
+         k += factor_speed
          screen.blit(backgroundIntro, (0,0))
          pygame.display.flip()
+         clock.tick(framerate)
    #Horizontal axis drawn first
       for x in range(1, width//grid_spacing_x):
          lineposx = x*grid_spacing_x
@@ -97,14 +123,11 @@ def intro_animation(screen):
          red_to_white = 255
          while k < 1:
             pygame.draw.line( backgroundIntro, (red_to_white, 0, 0), (lineposx, 0), (lineposx, k*height)) 
-            k += factor_speed
+            k += factor_speed*amplifier
             screen.blit(backgroundIntro, (0,0))
             pygame.display.flip()
+            clock.tick(framerate)
       m = 0
-   
-      text_one = font_cmu_bld.render("NULL", True, (255, 255, 255))
-      text_one_pos = text_one.get_rect(centerx=(width / 2) - 400, y = (height / 2 - 200))
-
 
       for y in range(1, height//grid_spacing_y):
          lineposy = y*grid_spacing_y 
@@ -114,20 +137,22 @@ def intro_animation(screen):
       
       while k < 1:
          pygame.draw.line( backgroundIntro, (red_to_white, 0, 0), (0, lineposy), (k*distnegx, lineposy) )
-         k += factor_speed
+         k += factor_speed*amplifier
          screen.blit(backgroundIntro, (0,0))
          pygame.display.flip()
+         clock.tick(framerate)
          
       k = 0
       while k < 1:
          pygame.draw.line( backgroundIntro, (red_to_white, 0, 0), (distposx, lineposy), (distposx + k*distnegx, lineposy))
-         k += factor_speed
+         k += factor_speed*amplifier
          screen.blit(backgroundIntro, (0,0))
          pygame.display.flip()
- 
+         clock.tick(framerate) 
 
       sound_effect_blast.play()
       intro_animation
+      pygame.event.clear()
 
 pass
 
@@ -264,4 +289,3 @@ while not quit:
    clock.tick(60) #Limit the game to 60 fps, also limit physics logic
     
 pygame.quit()
-

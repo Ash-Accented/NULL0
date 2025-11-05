@@ -1,58 +1,60 @@
-from game.modules.modules import * #NOT RECCOMENDED MOST TIMES, BUT IN THIS SITUATION ITS JUST TO PREVENT 6 LINES FROM BEING WRITTEN EVERY TIME
-pygame.init()
-from game.modules.clamp import Clamp
-from game.data.background.background import bounds_x, bounds_y, grid_spacing, GridBackground
-from game.data.display.display import screen, display_info, display_flags
-from game.data.player.player_render import player, player_size, RenderPlayer
-from game.data.player.player_movement import PlayerMovement
-from game.data.objects.textbox import TextBox
-from game.data.objects.equation import EquationObject
-from game.data.player.player_func import PlayerFunc
-from game.data.objects.point import PointObject
-pygame.display.set_caption("spinNull0")
-GridBackground.gen_background(screen)
-
-clock = pygame.time.Clock()
-framerate = 60
-
-#Creating New Equation Object, don't draw on screen  yet but initialize everything first 
-equationObject = EquationObject(200, 200)
-
-init_printing(use_unicode=False)
-sympy_operation = ((10*sin(x)))
-
-latex_expr = EquationObject.sympy_to_latex(sympy_operation)
-
-EquationObject.latexeq_to_image(equationObject, latex_expr) #Uses the size of equationobject, gives file path
-surfaceImageEquation = EquationObject.render_equation_copy(equationObject)
-rect = surfaceImageEquation.get_rect()
-function_storage = []
-quit = False
+from game.modules.modules import *
+from game.data.player.player_render import player, RenderPlayer
+from game.modules.reset_surface import ResetSurface
+class PointObject:
+   def __init__(self, radius, dx, dy):
+      self.radius = radius
+      self.dx = dx
+      self.dy = dy
+   pass
 
 
-def refresh_everything():
-   keystate = pygame.key.get_pressed() #get the currently held keys
-   PlayerMovement.player_movement(keystate, player, sympy_operation, screen)
-   RenderPlayer.render_player(player, screen) #render the player
-   EquationObject.move_equation(player, bounds_x, bounds_y, screen, rect, surfaceImageEquation, equationObject)
-   pygame.display.flip() #update the screen
+   def render_graph(point_list, screen): #Render points through the use of this method, with x and y coordinates
+      width, height = screen.get_size()
+      j = 0 
+      t = 0.0
+      dt = 1/60
+      issue_1 = "Woah, big y values are being computed"
+      text_indicator = font_cmu_rm.render("", True, (255, 255, 255))
+      text_indicator_pos = text_indicator.get_rect(x = (width - 100),y = (height - 100))
+      time_warning = 0
+      warning_surface = pygame.Surface((width, height), pygame.SRCALPHA)
+      warning_on = False
+      while j < (len(point_list) - 1):
+         move_per_second = 500 #denoting pixels
+         framerate = 60
+         clock = pygame.time.Clock()
+         x_1, y_1 = point_list[j]
+         x_2, y_2 = point_list[j + 1]
+         l_x = (x_2 - x_1)
+         l_y = (y_2 - y_1)
+         
+         if (abs(y_1) >= 30000 or abs(y_2) >= 30000):
+            text_indicator = font_cmu_rm.render(issue_1, True, (255))
+            warning_surface.blit(text_indicator, text_indicator_pos)
+            screen.blit(warning_surface, (0, 0))
+            time_warning = 180
+         
+              
+         try:
+            pointSurface = pygame.draw.line(screen, (224, 159, 255), (x_1, y_1), (x_1 + l_x, y_1 + (l_y)), width=2)
+         except ValueError as err:
+            print("ERROR ENCOUNTERED: " + {err})
+         
+         RenderPlayer.render_player(player, screen)
+         pygame.display.flip()
+         dt = clock.tick(framerate)
+         if (time_warning > 0):
+            time_warning -= 1 
+            warning_on = True
+         elif(time_warning == 0):
+            warning_on = False
+            ResetSurface.reset_surface_transparent(warning_surface)
+ 
 
 
-while not quit:
-   GridBackground.grid_alignment(player, screen)
+         
+         j = j + 1
+   pass
 
-
-   for event in pygame.event.get():
-      if event.type == pygame.QUIT:
-         quit = True
-      if event.type == pygame.KEYDOWN:
-         if event.key == pygame.K_SPACE:
-            function_plots = PlayerFunc.player_func_detect(sympy_operation, player, screen, bounds_x, bounds_y)
-            function_storage = function_plots
-            PointObject.render_graph(function_storage, screen)
-
-   refresh_everything()
-   clock.tick(60) #Limit the game to 60 fps, also limit physics logic
-    
-pygame.quit()
 

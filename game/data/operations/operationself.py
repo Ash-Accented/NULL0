@@ -1,8 +1,6 @@
 from game.modules.modules import *
 from game.data.objects.equation import EquationObject
-
 class OperationsSelf:
-
    def operation_addition(equationObject, sympy_expression, n):
       sympy_expression_new = (sympy_expression + n)
       latex_expr = EquationObject.sympy_to_latex(sympy_expression_new)
@@ -70,12 +68,14 @@ class OperationsSelf:
    pass
 
    def operation_integration(equationObject, sympy_expression):
-      sympy_expression_new = integrate(sympy_expression, x)
+      sympy_expression_new = integrate(sympy_expression, (x))
+      
       latex_expr = EquationObject.sympy_to_latex(sympy_expression_new)
       EquationObject.latexeq_to_image(equationObject, latex_expr)
       surfaceImageEquation = EquationObject.render_equation_copy(equationObject)
       rect = surfaceImageEquation.get_rect()
       return(sympy_expression_new, surfaceImageEquation)
+        
       
       pygame.display.flip() 
    pass
