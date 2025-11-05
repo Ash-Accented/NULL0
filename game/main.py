@@ -190,7 +190,7 @@ GridBackground.gen_background(screen)
 
 
 #Creating New Equation Object, don't draw on screen  yet but initialize everything first 
-equationObject = EquationObject(200, 200)
+equationObject = EquationObject(400, 400)
 image_list, text_image_list, text_image_pos_list = controls(equationObject, player)
 
 #TESTING
@@ -211,20 +211,34 @@ def refresh_everything_in_game():
    PlayerMovement.player_movement(keystate, player, sympy_operation, screen, bounds_x, bounds_y)
    RenderPlayer.render_player(player, screen) #render the player
    EquationObject.move_equation(player, bounds_x, bounds_y, screen, rect, surfaceImageEquation, equationObject)
-   update_controls(image_list, text_image_list, text_image_list)
+   update_controls(image_list, text_image_list, text_image_list, error, errorcheck)
    pygame.display.flip() #update the screen
 
 
-def update_controls(image_list, text_image_list, text_image_pos_list):
+errorcheck = False
+def update_controls(image_list, text_image_list, text_image_pos_list, error, errorcheck):
    dist_between_imgs_x = 160
    perched_imgs_where_y = 100
    k = 0
+   m = 0
    for image in image_list:
       rect = image.get_rect()
       rect.x = (200 + k*dist_between_imgs_x)
       rect.y = (perched_imgs_where_y)
       text_image = text_image_list[k]
       text_image_pos = text_image_pos_list[k]
+      if(error != "" and errorcheck == False):
+         if(error == "one" or error == "two"):
+            l = 6
+            image_list[l].set_alpha(100)
+            errorcheck = True
+         if(error == "three"):
+            l = 8
+            image_list[l].set_alpha(100) 
+            errorcheck = True
+      if(error == "" and errorcheck == True):
+         image.set_alpha(255)
+         errorcheck = False
       screen.blit(image, rect)
       k += 1
 
@@ -241,7 +255,14 @@ def update_controls(image_list, text_image_list, text_image_pos_list):
 
 #RUNTIME
 
+text_disc = font_cmu_rm.render("UNABLE TO GRAPH", True, (255, 0, 0))
+text_disc_pos = text_disc.get_rect(x = (width//2 - 300), y = (height - 200))
 
+def keepfunctionhere(func):
+   func_integrate = sympy_operation.subs(x, func)
+   return(func_integrate)
+
+error = ""
 while not quit:
    GridBackground.grid_alignment(player, screen)
    for event in pygame.event.get():
@@ -249,12 +270,38 @@ while not quit:
          quit = True
       if event.type == pygame.KEYDOWN:
          if event.key == pygame.K_SPACE:
-            function_plots = PlayerFunc.player_func_detect(sympy_operation, player, screen, bounds_x, bounds_y)
-            function_storage = function_plots
-            sound_effect_function_draw.play()
-            PointObject.render_graph(function_storage, screen)
-            sound_effect_interaction.play()
-
+            x = Symbol('x', real=True)
+            try:
+               function_plots = PlayerFunc.player_func_detect(sympy_operation, player, screen, bounds_x, bounds_y)
+               function_storage = function_plots
+               sound_effect_function_draw.play()
+               PointObject.render_graph(function_storage, screen)
+               sound_effect_interaction.play()
+               error = ""
+            except printing.codeprinter.PrintMethodNotImplementedError:
+            
+               try:
+                  defined_integral, err = quad(keepfunctionhere, 0, 5)
+                  if (math.isnan(defined_integral) == True or math.isinf(float(defined_integral)) == True):
+                     sound_effect_blast.play()
+                     text_disc = font_cmu_rm.render("CLOSED INTEGRAL IS UNDEFINED VAL", True, (255, 0, 0))
+                     error = "one"
+                     screen.blit(text_disc, text_disc_pos)
+               except TypeError as e:
+                  error = "two"
+                  text_disc = font_cmu_rm.render("NO CLOSED FORM SOLUTION EXISTS", True, (255, 0, 0))
+                  screen.blit(text_disc, text_disc_pos)
+            
+            except TypeError as e:
+               text_disc = font_cmu_rm.render("COMPLEX SOLUTIONS - NOT GRAPHING", True, (255, 0, 0))
+               screen.blit(text_disc, text_disc_pos)
+               error = "three"
+               sound_effect_blast.play()
+            except SyntaxError as e:
+               text_disc = font_cmu_rm.render("???", True, (255, 0, 0))
+               screen.blit(text_disc, text_disc_pos)
+               error = "four"
+               sound_effect_blast.play()
          if event.key == pygame.K_1:
             sound_effect_interaction.play()
             sympy_operation, surfaceImageEquation = OperationsSelf.operation_addition(equationObject, sympy_operation, 5)
@@ -266,7 +313,7 @@ while not quit:
             sympy_operation, surfaceImageEquation = OperationsSelf.operation_multiplication(equationObject, sympy_operation, 5)
          if event.key == pygame.K_4:
             sound_effect_interaction.play()
-            sympy_operation, surfaceImageEquation = OperationsSelf.operation_division(equationObject, sympy_operation, 5)
+            sympy_operation, surfaceImageEquation = OperationsSelf.operation_division(equationObject, sympy_operation, 0)
          if event.key == pygame.K_5:
             sound_effect_interaction.play()
             sympy_operation, surfaceImageEquation = OperationsSelf.operation_to_power(equationObject, sympy_operation, 5)

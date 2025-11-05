@@ -68,7 +68,7 @@ class OperationsSelf:
    pass
 
    def operation_integration(equationObject, sympy_expression):
-      sympy_expression_new = integrate(sympy_expression, (x))
+      sympy_expression_new = simplify(integrate(sympy_expression, (x)))
       
       latex_expr = EquationObject.sympy_to_latex(sympy_expression_new)
       EquationObject.latexeq_to_image(equationObject, latex_expr)

@@ -10,7 +10,7 @@ import numpy as np #Purpose: Do rote mathematical calculations to store into arr
 from PIL import Image #Purpose: Generate a compressed image made by sympy, increases game performance and efficiency
 import os.path #Compatibility for paths between linux and windows, as / \ mismatches can occur
 import math #EXCEPTION HANDLING
-
+from scipy.integrate import quad
 
 from common.player_brief import PlayerBrief
 from common.network_requests import NetworkObjectTypes, GetGames
