@@ -1,3 +1,10 @@
+
+
 ●Intro cutscene [draw grid lines slowly, display.flip() for every line drawn so the for loops take affect. Luke's background code only needs a factor and a loop for every line drawn so as to draw in real time slowly (k [0,1]), starting from the leftmost point and adding upon 0 for the second.
 
 •Added computer modern Font as a ttf in game/resources/fonts, need so the game's style is consistent.
+
+
+●Make fade out effect for function draw image
+●Make fade out animation for the function changes (fade in after operation)
+•Make main menu
