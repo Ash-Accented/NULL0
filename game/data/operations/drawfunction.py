@@ -15,7 +15,7 @@ class DrawFunction:
       m = 0
       scale_x = 50
       scale_y = 50
-      numpy_array_x = np.arange(0, 5, 0.05)
+      numpy_array_x = np.arange(0, 10, 0.07)
       
       func = lambdify(x, sympyExpression_new, modules='numexpr', cse=True, docstring_limit=1000)
       with ignore_warnings(RuntimeWarning):
