@@ -15,7 +15,7 @@ class DrawFunction:
       m = 0
       scale_x = 50
       scale_y = 50
-      numpy_array_x = np.arange(0, 10, 0.07)
+      numpy_array_x = np.arange(-2, 10, 0.09)
       
       func = lambdify(x, sympyExpression_new, modules='numexpr', cse=True, docstring_limit=1000)
       with ignore_warnings(RuntimeWarning):
@@ -34,14 +34,15 @@ class DrawFunction:
          dx = ((player.dx - corner_of_screen_x) + scale_x*i)
          dy = round(((player.dy - corner_of_screen_y) - scale_y*func(i)), 4)
          
-         if(abs(dy) <= 300000):
+         if(math.isfinite(dy) == true):
             point_coordinate = [dx, dy]
             point_list.append(point_coordinate) 
-         elif(dy <= -30000):
+         
+         if(dy <= -30000):
             dy = -10000
             point_coordinate = [dx, dy]
             point_list.append(point_coordinate)
-         elif(dy >= 30000):
+         if(dy >= 30000):
             dy = 10000
             point_coordinate = [dx, dy]
             point_list.append(point_coordinate)

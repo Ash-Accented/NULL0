@@ -42,9 +42,8 @@ class PointObject:
                #print("POINT " + j + ": (" + str(round(x1, 5)) + ", " + str(round(y1, 5)) + ")") 
                #print("POINT " + j + ": (" + str(round(x1, 5)) + ", " + str(round(y1, 5)) + ")")
             else:
-                    
-               pointSurface = pygame.draw.line(screen, (224, 159, 255), (x_1, y_1), (x_1 + (l_x), y_1 + (l_y)), width=2)
-         
+               pointSurface = pygame.draw.line(screen, (224, 159, 255), (x_1, y_1), (x_1 + (l_x), y_1 + (l_y)), width=3)
+               
             RenderPlayer.render_player(player, screen)
             pygame.display.flip()
             if (time_warning > 0):
@@ -58,7 +57,7 @@ class PointObject:
              continue
          
          j = j + 1
-         clock.tick(framerate)
+         clock.tick(100)
    pass
 
 

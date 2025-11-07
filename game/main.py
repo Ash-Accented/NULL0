@@ -76,8 +76,10 @@ equation_object = EquationObject(400, 400)
 image_list, text_image_list, text_image_pos_list = controls(equation_object, player)
 
 #TESTING
+
 init_printing(use_unicode=False)
-sympy_operation = 6*sin(x)
+x = Symbol('x', real=True)
+sympy_operation = tan(x) 
 latex_expr = EquationObject.sympy_to_latex(sympy_operation)
 
 
@@ -187,10 +189,6 @@ while not quit:
                text_disc = font_cmu_rm.render("???", True, (255, 0, 0))
                screen.blit(text_disc, text_disc_pos)
                error = "four"
-               sound_effect_blast.play()
-            except:
-               text_disc = font_cmu_rm.render("Some other error", True, (255, 0, 0))
-               screen.blit(text_disc, text_disc_pos)
                sound_effect_blast.play()
          if event.key == pygame.K_1:
             sound_effect_interaction.play()
