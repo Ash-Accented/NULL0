@@ -1,15 +1,17 @@
 from game.modules.modules import *
 from game.data.player.player_render import player, RenderPlayer
 from game.modules.reset_surface import ResetSurface
+from game.data.objects.enemy import Enemy
 class PointObject:
    def __init__(self, radius, dx, dy):
       self.radius = radius
       self.dx = dx
       self.dy = dy
    pass
+ 
 
-
-   def render_graph(point_list, screen): #Render points through the use of this method, with x and y coordinates
+   def render_graph(point_list, screen, enemy_rect): #Render points through the use of this method, with x and y coordinates
+      check_hit = False
       font_cmu_rm = pygame.font.Font('game/resources/fonts/cmunrm.ttf', 30)
       width, height = screen.get_size()
       j = 0 
@@ -23,8 +25,11 @@ class PointObject:
       warning_on = False
       clock = pygame.time.Clock()
       framerate = 60
-      while j < (len(point_list) - 1):
 
+
+      function_array = []#STORE THE RECTANGLULAR TYPE OBJECTS IN THIS ARRAY
+      
+      while j < (len(point_list) - 1):
          try:
             x_1, y_1 = point_list[j]
             x_2, y_2 = point_list[j + 1]
@@ -43,7 +48,13 @@ class PointObject:
                #print("POINT " + j + ": (" + str(round(x1, 5)) + ", " + str(round(y1, 5)) + ")")
             else:
                pointSurface = pygame.draw.line(screen, (224, 159, 255), (x_1, y_1), (x_1 + (l_x), y_1 + (l_y)), width=3)
-               
+               function_array.append(pointSurface)
+               #if function_cumulative.Rect.colliderect(enemy_rect):
+                   #text_indicator = font_cmu_rm.render(issue_1, True, (255, 0, 0))
+                  #warning_surface.blit(text_indicator, text_indicator_pos)
+                  #screen.blit(warning_surface, (0, 0))
+                  
+
             RenderPlayer.render_player(player, screen)
             pygame.display.flip()
             if (time_warning > 0):
@@ -55,9 +66,18 @@ class PointObject:
          
          except:
              continue
-         
          j = j + 1
          clock.tick(100)
+
+      if (pygame.Rect.collidelist(enemy_rect, function_array) == -1):
+           text_indicator = font_cmu_rm.render(issue_1, True, (255, 0, 0))
+           warning_surface.blit(text_indicator, text_indicator_pos)
+           screen.blit(warning_surface, (0, 0))
+           check_hit = False
+           return(check_hit)
+      else:
+         check_hit = True
+         return(check_hit)
    pass
 
 

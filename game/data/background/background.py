@@ -24,6 +24,7 @@ class GridBackground:
       pygame.draw.line(background, (255, 255, 255), (0,0), (0, height), 5)
       pygame.draw.line(background, (255, 255, 255), (width,0), (width, height), 5)
       pygame.draw.line(background, (255, 255, 255), (0,height), (width, height), 5)
+      return(background)
    pass
 
    def grid_alignment(player, screen):

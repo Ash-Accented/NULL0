@@ -5,7 +5,7 @@ from game.data.background.background import bounds_x, bounds_y, grid_spacing, Gr
 player = PlayerBrief()
 player.from_data(0, 0, 100, 100)
 
-player_size = 10
+player_size = 40
 
 
 class RenderPlayer:
@@ -16,7 +16,10 @@ class RenderPlayer:
       #clamp the viewable area of the screen to the boundaries of the map by restricting the corner of the screen to within 0 - one screen width from the edge
       corner_of_screen_x = Clamp.clamp(corner_of_screen_x, 0, bounds_x - screen.get_size()[0])
       corner_of_screen_y = Clamp.clamp(corner_of_screen_y, 0, bounds_y - screen.get_size()[1])
-      pygame.draw.circle(screen, (224, 159, 255), (entity.dx - corner_of_screen_x, entity.dy - corner_of_screen_y), player_size, 0) #draw a solid green circle on the screen with a radius of 20 centered on the entity's location relative to the player
+      player_rect = pygame.draw.circle(screen, (224, 159, 255), (entity.dx - corner_of_screen_x, entity.dy - corner_of_screen_y), player_size, 1) #draw a solid green circle on the screen with a radius of 20 centered on the entity's location relative to the player
+      player_rect.x = player_rect.x + (player_rect.width//2)
+      player_rect.y = player_rect.y + (player_rect.height//2)
+      return(player_rect)
    pass
 
 

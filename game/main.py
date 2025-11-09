@@ -20,8 +20,9 @@ from game.data.preload.fonts import font_cmu_rm, font_cmu_bld
 from game.data.animations.intro_animation import IntroAnimation
 from game.data.gamestates.intro_skip import IntroSkip
 from game.data.preload.colors import ColorsManual
-
-
+from game.data.objects.enemy import Enemy
+from game.data.objects.minimap import MiniMap
+from game.data.objects.hitboxes import Hitbox
 
 
 #: + %s/string-in-file-to-replace/desired-string-to-insert/g + enter
@@ -32,7 +33,6 @@ global framerate
 framerate = 60
 width, height = screen.get_size()
 surface_inaccessible = pygame.Surface((width, height), pygame.SRCALPHA)
-
 
 
 
@@ -67,10 +67,9 @@ def controls(equation_object, player):
 if (IntroSkip.intro_skip_method(screen) != "exit intro"):
    IntroAnimation.intro_animation_method(screen)
 
-GridBackground.gen_background(screen)
+background = GridBackground.gen_background(screen)
 
-
-
+enemy = Enemy(1800, 900, 10, 10, 30) #testing start pos
 #Creating New Equation Object, don't draw on screen  yet but initialize everything first 
 equation_object = EquationObject(400, 400)
 image_list, text_image_list, text_image_pos_list = controls(equation_object, player)
@@ -79,7 +78,7 @@ image_list, text_image_list, text_image_pos_list = controls(equation_object, pla
 
 init_printing(use_unicode=False)
 x = Symbol('x', real=True)
-sympy_operation = tan(x) 
+sympy_operation = 10*cos(x) 
 latex_expr = EquationObject.sympy_to_latex(sympy_operation)
 
 
@@ -89,14 +88,20 @@ rect = surface_image_equation.get_rect()
 function_storage = []
 quit = False
 
+print(str(bounds_x) + " " + str(bounds_y) + " " + str(bounds_x - width))
 
+color_default = ColorsManual.green
 def refresh_everything_in_game():
    keystate = pygame.key.get_pressed() #get the currently held keys
    PlayerMovement.player_movement(keystate, player, sympy_operation, screen, bounds_x, bounds_y)
-   RenderPlayer.render_player(player, screen) #render the player
+   player_rect = RenderPlayer.render_player(player, screen) #render the player
    EquationObject.move_equation(player, bounds_x, bounds_y, screen, rect, surface_image_equation, equation_object)
    update_controls(image_list, text_image_list, text_image_list, error, error_check)
+   enemy_rect = Enemy.draw_record_enemy(enemy, screen, background, player, player_rect, color_default)
+   MiniMap.coordinates(player, player_rect, screen, enemy, enemy_rect)
+   Hitbox.hitbox_draw(enemy_rect, player_rect, screen)
    pygame.display.flip() #update the screen
+   
 
 
 error_check = False
@@ -163,9 +168,15 @@ while not quit:
                function_plots = PlayerFunc.player_func_detect(sympy_operation, player, screen, bounds_x, bounds_y)
                function_storage = function_plots
                sound_effect_function_draw.play()
-               PointObject.render_graph(function_storage, screen)
-               sound_effect_interaction.play()
-               error = ""
+               player_rect = RenderPlayer.render_player(player, screen)
+               enemy_rect = Enemy.draw_record_enemy(enemy, screen, background, player, player_rect, color_default)
+               player_rect_hitbox, enemy_rect_hitbox = Hitbox.hitbox_draw(enemy_rect, player_rect, screen)
+               check_hit = PointObject.render_graph(function_storage, screen, enemy_rect_hitbox) #sends the updated enemy_rect to the render_graph function to check if the rect of the enemy collides with the function
+               if check_hit == True:
+                  color_default = ColorsManual.red
+                  sound_effect_blast.play()
+               elif check_hit == False:
+                  error = ""
             except printing.codeprinter.PrintMethodNotImplementedError:
             
                try:
@@ -180,11 +191,11 @@ while not quit:
                   text_disc = font_cmu_rm.render("NO CLOSED FORM SOLUTION EXISTS", True, (255, 0, 0))
                   screen.blit(text_disc, text_disc_pos)
             
-            except TypeError as e:
-               text_disc = font_cmu_rm.render("COMPLEX SOLUTIONS - NOT GRAPHING", True, (255, 0, 0))
-               screen.blit(text_disc, text_disc_pos)
-               error = "three"
-               sound_effect_blast.play()
+            #except TypeError as e:
+               #text_disc = font_cmu_rm.render("COMPLEX SOLUTIONS - NOT GRAPHING", True, (255, 0, 0))
+               #screen.blit(text_disc, text_disc_pos)
+               #error = "three"
+               #sound_effect_blast.play()
             except SyntaxError as e:
                text_disc = font_cmu_rm.render("???", True, (255, 0, 0))
                screen.blit(text_disc, text_disc_pos)

@@ -32,9 +32,9 @@ class DrawFunction:
       for i in numpy_array_x:
         
          dx = ((player.dx - corner_of_screen_x) + scale_x*i)
-         dy = round(((player.dy - corner_of_screen_y) - scale_y*func(i)), 4)
+         dy = round(((player.dy - corner_of_screen_y) - scale_y*func(i)), 6)
          
-         if(math.isfinite(dy) == true):
+         if(np.isfinite(dy) == true):
             point_coordinate = [dx, dy]
             point_list.append(point_coordinate) 
          
