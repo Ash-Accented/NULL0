@@ -1,27 +1,40 @@
-from game.modules.modules import *
-from game.modules.clamp import Clamp
+from game.modules.base_modules import *
+from game.data.preload.colors import ColorsManual
 from game.data.background.background import bounds_x, bounds_y, grid_spacing, GridBackground
+from game.data.display.display import screen, display_info, display_flags, width, height
+from game.data.display.frames import clock, framerate
+player_velocity_base = 100
+player_pos_init_x, player_pos_init_y = [0, 0]
+player_size = 20
+player_border = 5
+player_scope_size = 5
 
 player = PlayerBrief()
-player.from_data(0, 0, 100, 100)
-
-player_size = 40
+player.from_data(player_pos_init_x, player_pos_init_y, player_velocity_base, player_velocity_base)
 
 
 class RenderPlayer:
-   def render_player(entity, screen):
-      #attempting to draw a player that is offscreen will not cause issues, so we don't need to check if they are onscreen
+   def render_player(entity):
+      #attempting to draw a player that is offscreen will not cause issues, so we don't need to check if they are onscreen, however the boundaries can be set through the attributes dx and dy respective to the player
       corner_of_screen_x = player.dx - screen.get_size()[0]/2 #the coordinate value on the map of the point at the corner of the screen
       corner_of_screen_y = player.dy - screen.get_size()[1]/2 #same
       #clamp the viewable area of the screen to the boundaries of the map by restricting the corner of the screen to within 0 - one screen width from the edge
       corner_of_screen_x = Clamp.clamp(corner_of_screen_x, 0, bounds_x - screen.get_size()[0])
       corner_of_screen_y = Clamp.clamp(corner_of_screen_y, 0, bounds_y - screen.get_size()[1])
-      player_rect = pygame.draw.circle(screen, (224, 159, 255), (entity.dx - corner_of_screen_x, entity.dy - corner_of_screen_y), player_size, 1) #draw a solid green circle on the screen with a radius of 20 centered on the entity's location relative to the player
+      player_rect = pygame.draw.circle(screen, (ColorsManual.medium_purple), (entity.dx - corner_of_screen_x, entity.dy - corner_of_screen_y), player_size, player_border) #draw a solid green circle on the screen with a radius of 20 centered on the entity's location relative to the player
+      player_scope_size_rect = pygame.draw.circle(screen, (ColorsManual.medium_purple), (entity.dx - corner_of_screen_x, entity.dy - corner_of_screen_y), player_scope_size, 0)
       player_rect.x = player_rect.x + (player_rect.width//2)
       player_rect.y = player_rect.y + (player_rect.height//2)
       return(player_rect)
    pass
 
-
+   def return_corners_xy(player):
+      corner_of_screen_x = player.dx - screen.get_size()[0]/2 #the coordinate value on the map of the point at the corner of the screen
+      corner_of_screen_y = player.dy - screen.get_size()[1]/2 #same
+      #clamp the viewable area of the screen to the boundaries of the map by restricting the corner of the screen to within 0 - one screen width from the edge
+      corner_of_screen_x = Clamp.clamp(corner_of_screen_x, 0, bounds_x - screen.get_size()[0])
+      corner_of_screen_y = Clamp.clamp(corner_of_screen_y, 0, bounds_y - screen.get_size()[1])
+      return(corner_of_screen_x, corner_of_screen_y)
+   pass
       
 

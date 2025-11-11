@@ -1,6 +1,5 @@
-from game.modules.modules import *
-from game.data.preload.fonts import font_cmu_rm, font_cmu_bld
-from game.modules.reset_surface import ResetSurface
+from game.modules.base_modules import *
+from game.modules.preloads import *
 
 class IntroSkip:
    def intro_skip_method(screen):

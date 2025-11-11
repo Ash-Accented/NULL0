@@ -1,6 +1,5 @@
-from game.modules.modules import *
-from game.data.preload.fonts import font_cmu_rm, font_cmu_bld
-from game.data.preload.colors import ColorsManual
+from game.modules.base_modules import *
+from game.modules.preloads import *
 class MiniMap:
    def coordinates(player, player_rect, screen, enemy, enemy_rect):
       player_coords = str((round(player.dx), round(player.dy)))

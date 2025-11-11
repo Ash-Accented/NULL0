@@ -1,6 +1,5 @@
-from game.modules.modules import *
-from game.data.preload.colors import ColorsManual
-
+from game.modules.base_modules import *
+from game.modules.preloads import *
 class Hitbox:
    def hitbox_draw(entity, player_rect, screen):
       width, height = screen.get_size()

@@ -1,7 +1,5 @@
-from game.modules.modules import *
-from game.modules.clamp import Clamp
-from game.data.background.background import bounds_x, bounds_y, grid_spacing, GridBackground
-from game.data.preload.colors import ColorsManual
+from game.modules.base_modules import *
+from game.modules.preloads import *
 class Enemy:
    def __init__(self, dx, dy, vx, vy, radius):
       self.dx = dx
@@ -10,35 +8,31 @@ class Enemy:
       self.vy = vy
       self.radius = radius
    pass
-   def draw_record_enemy(enemy, screen, background, player, player_rect, color):  #ENEMY POSITION NOT RELIANT ON PLAYER POSITION
-     
+   def draw_record_enemy(enemy, screen, player, player_rect, color):  #ENEMY POSITION NOT RELIANT ON PLAYER POSITION
+      grid_spacing = 50
       width, height = screen.get_size()
+      clamped_area_x, clamped_area_y = (bounds_x - width), (bounds_y - height) #Make scrolled_displacement the amount traversed as the grid scrolls
+      static_area_x, static_area_y = width//2, height//2
+     
       
-      corner_screen_x = bounds_x - width
-      corner_screen_y = bounds_y - height 
-      
+      scrolled_displacement_x = (clamped_area_x) #1500 = 1400 + x --> (900)  1800 - 1500
+      scrolled_displacement_y = (clamped_area_y) #800 + 450
+      #36, 12 if 25 grid [15, 10]
       new_pos_x = enemy.dx
       new_pos_y = enemy.dy
-      clamped_y = math.ceil(height/grid_spacing)*(grid_spacing//2) - 10 #Find value at which scrolling of the screen occurs for rect of player horizontally
-      clamped_x_left = (width//grid_spacing)*(grid_spacing//2) + 10 #Find value at which scrolling of screen occurs for rect of player vertically
-      clamped_x_right = bounds_x - (clamped_x_left + width)
-      adjustment_x = clamped_x_left
-      adjustment_y = clamped_y
-      clamped_y_down = bounds_y - (clamped_y + height)
-      print(player_rect.width//2, corner_screen_x, new_pos_x, new_pos_y, clamped_x_left, clamped_x_right, clamped_y,  adjustment_x, adjustment_y )
       #1080, 1800, 900, | 970, 110, 530, 970, 530
       #960, 540
-      if(player_rect.x == clamped_x_left):
-         new_pos_x -= (player.dx - adjustment_x)
-      elif(player_rect.x > clamped_x_left):
-         new_pos_x = enemy.dx - (adjustment_x + clamped_x_right)
-      elif(player_rect.x < clamped_x_left):
+      if(player_rect.x == static_area_x):
+         new_pos_x -= (player.dx - static_area_x)
+      elif(player_rect.x > static_area_x):
+         new_pos_x = enemy.dx - (scrolled_displacement_x)
+      elif(player_rect.x < static_area_x):
          new_pos_x = enemy.dx
-      if(player_rect.y == clamped_y):
-         new_pos_y -= (player.dy - adjustment_y)
-      elif(player_rect.y > clamped_y):
-         new_pos_y = enemy.dy - (adjustment_y + clamped_y_down)
-      elif(player_rect.y < clamped_y):
+      if(player_rect.y == static_area_y):
+         new_pos_y -= (player.dy - static_area_y)
+      elif(player_rect.y > static_area_y):
+         new_pos_y = enemy.dy - (scrolled_displacement_y)
+      elif(player_rect.y < static_area_y):
          new_pos_y = enemy.dy
          
       enemy_rect = pygame.draw.circle(screen, color, (new_pos_x, new_pos_y), enemy.radius, width=4)

@@ -1,5 +1,5 @@
-from game.modules.modules import *
-from game.modules.clamp import Clamp
+from game.modules.base_modules import *
+from game.modules.preloads import *
 class EquationObject:
    def __init__(self, length, height):
       self.length = length

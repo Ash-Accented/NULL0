@@ -1,7 +1,4 @@
-from game.modules.modules import *
-from game.modules.clamp import Clamp
-from game.data.display.display import screen, display_info, display_flags 
-
+from game.modules.base_modules import *
 bounds_x = 3000
 bounds_y = 3000
 grid_spacing = 50 #height and width of each grid square
@@ -29,9 +26,9 @@ class GridBackground:
 
    def grid_alignment(player, screen):
       #TODO: Let the grids align with the map bounds
-      background_x_orgin = Clamp.clamp(player.dx, screen.get_size()[0]/2, bounds_x - screen.get_size()[0]/2)%grid_spacing
-      background_y_orgin = Clamp.clamp(player.dy, screen.get_size()[1]/2, bounds_y - screen.get_size()[1]/2)%grid_spacing
-      screen.blit(background, (0, 0), pygame.Rect(background_x_orgin, background_y_orgin, screen.get_size()[0], screen.get_size()[1]))
+      background_x_origin = Clamp.clamp(player.dx, screen.get_size()[0]/2, bounds_x - screen.get_size()[0]/2)%grid_spacing
+      background_y_origin = Clamp.clamp(player.dy, screen.get_size()[1]/2, bounds_y - screen.get_size()[1]/2)%grid_spacing
+      screen.blit(background, (0, 0), pygame.Rect(background_x_origin, background_y_origin, screen.get_size()[0], screen.get_size()[1]))
    pass
 
    

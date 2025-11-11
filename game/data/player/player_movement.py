@@ -1,13 +1,13 @@
-from game.modules.modules import *
-from game.modules.clamp import Clamp
-from game.data.player.player_render import player, RenderPlayer
-from game.data.operations.drawfunction import DrawFunction
+from game.modules.base_modules import *
+from game.modules.preloads import *
 player_max_speed = 100
-general_velocity = 3.5
-accelerationf = 0.8
-deccelerationf = 0.2 
+general_velocity = 2.6 #3.5 was original 
+accelerationf = 0.8 #0.8 is standard [favourite]
+deccelerationf = 0.2 #0.2 is standard [favourite]
+
 class PlayerMovement:
-   def player_movement(keystate, player, sympy_expression, screen, bounds_x, bounds_y):
+   def player_movement(keystate, player):
+      
       corner_of_screen_x = player.dx - screen.get_size()[0]/2
       corner_of_screen_y = player.dy - screen.get_size()[1]/2
 
@@ -23,18 +23,17 @@ class PlayerMovement:
       width = 2*magnitude_arrow
       height = magnitude_arrow
       
-      if keystate[pygame.K_w]: #if the key is pressed, accelerate the player in that direction
-         player.vy -= accelerationf
-         pygame.draw.polygon(screen, (0, 255, 0), ((x1, (y1 - magnitude_arrow) + distance_up ), (x1 + magnitude_arrow, y1 + distance_up), (x1 - magnitude_arrow, y1 + distance_up)))
-
-      elif keystate[pygame.K_a]:
-         player.vx -= accelerationf
+      if keystate[pygame.K_w] and player.dy > (grid_spacing + player_size): #if the key is pressed, accelerate the player in that direction
+         player.vy -= accelerationf #Increases the velocity attribute of the player by accelerationf amount in upward direction
+         pygame.draw.polygon(screen, (0, 255, 0), ((x1, (y1 - magnitude_arrow) + distance_up ), (x1 + magnitude_arrow, y1 + distance_up), (x1 - magnitude_arrow, y1 + distance_up))) #Draw an arrow that dictates the direction of movement
+      elif keystate[pygame.K_a] and player.dx > (grid_spacing + player_size):
+         player.vx -= accelerationf #same but leftward
          pygame.draw.polygon(screen, (0, 255, 0), ((x1 + distance_left, y1 + magnitude_arrow), (x1 + distance_left, y1 - magnitude_arrow), (x1 + distance_left - magnitude_arrow, y1)))
-      elif keystate[pygame.K_s]:
-         player.vy += accelerationf
+      elif keystate[pygame.K_s] and player.dy < (bounds_y - (grid_spacing + player_size)):
+         player.vy += accelerationf #same but downward
          pygame.draw.polygon(screen, (0, 255, 0), ((x1, (y1 + magnitude_arrow) + distance_down ), (x1 + magnitude_arrow, y1 + distance_down), (x1 - magnitude_arrow, y1 + distance_down)))
-      elif keystate[pygame.K_d]:
-         player.vx += accelerationf
+      elif keystate[pygame.K_d] and player.dx < (bounds_x - grid_spacing):
+         player.vx += accelerationf #same but rightward
          pygame.draw.polygon(screen, (0, 255, 0), ((x1 + distance_right, y1 + magnitude_arrow), (x1 + distance_right, y1 - magnitude_arrow), (x1 + distance_right + magnitude_arrow, y1)))
    
       player.vx -= player.vx*deccelerationf #slowly slow down the player and limit top speed

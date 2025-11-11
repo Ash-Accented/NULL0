@@ -1,5 +1,5 @@
-from game.modules.modules import *
-
+from game.modules.base_modules import *
+from game.modules.preloads import *
 class GenerateImage:
    def generate_img_latex(name_of_file, sympy_operation, equationObject):
       path_desired = "game/images/operations/"

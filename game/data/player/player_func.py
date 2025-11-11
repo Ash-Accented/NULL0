@@ -1,9 +1,9 @@
-from game.modules.modules import *
-from game.data.player.player_render import player, RenderPlayer
-from game.data.operations.drawfunction import DrawFunction
+from game.modules.base_modules import *
+from game.modules.preloads import *
+from game.data.function.generate_graph_plots import GeneratePlots
 
 class PlayerFunc:
-   def player_func_detect(sympy_expression, player, screen, bounds_x, bounds_y):
-      function_plots = DrawFunction.draw_function(sympy_expression, player, screen, bounds_x, bounds_y)
+   def player_func_detect(sympy_expression, player):
+      function_plots = GeneratePlots.generate_plots(sympy_expression, player)
       return(function_plots)
    pass

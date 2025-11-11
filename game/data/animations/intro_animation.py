@@ -1,17 +1,11 @@
-from game.modules.modules import *
-from game.data.preload.colors import ColorsManual
-from game.data.preload.fonts import font_cmu_rm, font_cmu_bld
-from game.modules.reset_surface import ResetSurface
-from game.data.preload.sound_effects import sound_effect_function_draw, sound_effect_intro_animation, sound_effect_null_robot, sound_effect_electric, sound_effect_powerup, sound_effect_blast, sound_effect_interaction
+from game.modules.base_modules import *
+from game.modules.preloads import *
 from game.data.gamestates.intro_skip import IntroSkip
 class IntroAnimation:
-   def intro_animation_method(screen):
-         width, height = screen.get_size()
-         background_intro = pygame.Surface((width, height))
-         background_intro.fill((0,0,0))
+   def intro_animation_method():
          running = True
-         clock = pygame.time.Clock()
-         framerate = 60
+         background_intro = pygame.Surface((width, height))
+         background_intro.fill((0,0,0)) 
          x_axis_placement = width // 2
          y_axis_placement = height // 2
          text_zero = font_cmu_bld.render("NULL0", True, (255, 255, 255)) #initialize
@@ -30,7 +24,7 @@ class IntroAnimation:
             amplifier = 3
             k = 0
          
-            sound_effect_null_robot.play()
+            SoundEffects.sound_effect_null_robot.play()
             while k < 1:
          
                text_zero = font_cmu_bld.render("NULL0", True, (k*255, k*255, k*255))
@@ -44,34 +38,49 @@ class IntroAnimation:
                screen.blit(background_intro, default_pos)
                pygame.display.flip()
                clock.tick(framerate)
+
+
+
          for x in range(1, width//x_axis_placement):
             lineposx = x*x_axis_placement
-            sound_effect_powerup.play()
+            SoundEffects.sound_effect_powerup.play()
             k = 0
             m += 1
             red_to_white = 255
+
          while k < 1:
             pygame.draw.line( background_intro, (red_to_white, 0, 0), (lineposx, 0), (lineposx, k*height)) 
             k += factor_speed*amplifier
             screen.blit(background_intro, (0,0))
             pygame.display.flip()
             clock.tick(framerate)
+         
          m = 0
+
+
+
 
          for y in range(1, height//y_axis_placement):
             lineposy = y*y_axis_placement 
-            sound_effect_powerup.play()
+            SoundEffects.sound_effect_powerup.play()
             k = 0
             m+=1
-      
+
+
          while k < 1:
             pygame.draw.line( background_intro, (red_to_white, 0, 0), (0, lineposy), (k*distnegx, lineposy) )
             k += factor_speed*amplifier
             screen.blit(background_intro, (0,0))
             pygame.display.flip()
             clock.tick(framerate)
-         
+        
+
+
+
          k = 0
+
+
+
          while k < 1:
             pygame.draw.line( background_intro, (red_to_white, 0, 0), (distposx, lineposy), (distposx + k*distnegx, lineposy))
             k += factor_speed*amplifier
@@ -79,7 +88,7 @@ class IntroAnimation:
             pygame.display.flip()
             clock.tick(framerate) 
 
-         sound_effect_blast.play()
+         SoundEffects.sound_effect_blast.play()
          pygame.event.clear()
 
    pass
