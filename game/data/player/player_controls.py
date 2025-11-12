@@ -10,6 +10,8 @@ class PlayerControls:
    function_storage = []
    def player_operations(event, sympy_operation, enemy, equation_object, surface_image_equation):
       '''Handle key presses regarding operations done by the player, '''
+      x = Symbol('x', real=True)
+      
       try:
          func_graphable = GeneratePlots.check_errors(sympy_operation)
          if func_graphable == True:
@@ -48,7 +50,6 @@ class PlayerControls:
             SoundEffects.sound_effect_error.play()
             return(sympy_operation, surface_image_equation)
       except:
-         sympy_operation = 1
          return(sympy_operation, surface_image_equation) 
    
    def player_func_draw(sympy_operation, equation_object, enemy, color_default):

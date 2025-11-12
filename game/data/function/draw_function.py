@@ -9,7 +9,6 @@ class DrawFunction:
       x_4, y_4 = point_list[0, j + 3], point_list[1, j + 3]
       x_5, y_5 = point_list[0, j + 4], point_list[1, j + 4]
       line_list = [(x_1, y_1), (x_2, y_2), (x_3, y_3), (x_4, y_4), (x_5, y_5)]
-      print(line_list)
       line_comb_surface = pygame.draw.lines(screen, ColorsManual.dracula_purple, False, line_list, width=3)
       return(line_comb_surface)
       
@@ -31,7 +30,6 @@ class DrawFunction:
          pygame.display.flip()
          j = j + 4
          clock.tick(framerate)
-         print(j)
 
       check_hit = DrawFunction.collision_detect_func(enemy_rect_hitbox, function_array)
       return(check_hit)

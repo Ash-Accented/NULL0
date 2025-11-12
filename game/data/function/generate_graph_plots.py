@@ -7,6 +7,7 @@ class GeneratePlots:
       func_graphable = True
       try:
          func = lambdify(x, sympy_expression, modules='numexpr', cse=True, docstring_limit=1000) #creation of a function 'func', that numerically evaluates sympy functions with the 'numexpr' code printer 
+         print("HI")
          return(func_graphable)
       except SyntaxError as e:
          print({e})

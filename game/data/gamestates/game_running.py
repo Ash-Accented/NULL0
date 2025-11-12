@@ -11,7 +11,7 @@ class GameRunning:
    background = GridBackground.gen_background(screen)
    enemy = Enemy(1800, 900, 10, 10, 30)
    #Generate Equation used to represent the image of the equation that follows the player
-   sympy_operation = 5*sin(x) 
+   sympy_operation = (sin(x))*(5) 
    equation_object = EquationObject(400, 400)      #Initialize
    latex_expr, surface_image_equation, rect_surface_image_equation = GenerateFuncImage.generate_new_equation(equation_object, sympy_operation)
    
