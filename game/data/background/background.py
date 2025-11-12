@@ -1,13 +1,16 @@
 from game.modules.base_modules import *
+#Unique modules
+from game.data.display.display import screen, display_flags
+
 bounds_x = 3000
 bounds_y = 3000
 grid_spacing = 50 #height and width of each grid square
 
 class GridBackground:
-   def gen_background(screen):
-      global background #make the background global so that it can be accessed everywhere
-      width, height = screen.get_size() #get the size of the screen
-      width, height = width + grid_spacing, height + grid_spacing #add grid_spacing px for reasons explained below
+   width, height = screen.get_size()
+   def gen_background(player):
+      global background #make the background global so that it can be accessed everywhere  
+      width, height = GridBackground.width + grid_spacing, GridBackground.height + grid_spacing #add grid_spacing px for reasons explained below
       background = pygame.Surface((width, height)) #create a surface to use as a template background. create it grid_spacingpx larger than it needs to be, so we can shift it around slighty to give the appearance of a static grid that the player moves relative to, instead of the grid moving with the player 
       background.fill((20, 20, 20)) #set the background to very dark gray
       #draw horizontal and vertical light gray lines grid_spacing px apart 
@@ -24,7 +27,7 @@ class GridBackground:
       return(background)
    pass
 
-   def grid_alignment(player, screen):
+   def grid_alignment(player):
       #TODO: Let the grids align with the map bounds
       background_x_origin = Clamp.clamp(player.dx, screen.get_size()[0]/2, bounds_x - screen.get_size()[0]/2)%grid_spacing
       background_y_origin = Clamp.clamp(player.dy, screen.get_size()[1]/2, bounds_y - screen.get_size()[1]/2)%grid_spacing

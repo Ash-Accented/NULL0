@@ -8,7 +8,7 @@ class Enemy:
       self.vy = vy
       self.radius = radius
    pass
-   def draw_record_enemy(enemy, screen, player, player_rect, color):  #ENEMY POSITION NOT RELIANT ON PLAYER POSITION
+   def draw_record_enemy(enemy, player_rect, color):  #ENEMY POSITION NOT RELIANT ON PLAYER POSITION
       grid_spacing = 50
       width, height = screen.get_size()
       clamped_area_x, clamped_area_y = (bounds_x - width), (bounds_y - height) #Make scrolled_displacement the amount traversed as the grid scrolls

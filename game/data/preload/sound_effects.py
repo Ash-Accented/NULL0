@@ -8,4 +8,5 @@ class SoundEffects:
    sound_effect_powerup = pygame.mixer.Sound("game/resources/sound/ambient_noise/powerup.wav")
    sound_effect_blast = pygame.mixer.Sound("game/resources/sound/ambient_noise/blast.wav")
    sound_effect_interaction = pygame.mixer.Sound("game/resources/sound/menu_click/menuclick.wav")
-   
+   sound_effect_error = pygame.mixer.Sound("game/resources/sound/player_hit/errorasgore.mp3")
+   sound_effect_hit = pygame.mixer.Sound("game/resources/sound/player_hit/asgoreblade.mp3")

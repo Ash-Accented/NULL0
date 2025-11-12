@@ -6,14 +6,8 @@ class EquationObject:
       self.height = height
    pass
 
-   def move_equation(player, bounds_x, bounds_y, screen, rect, surfaceImageEquation, equationObject):
-      
-      corner_of_screen_x = player.dx - screen.get_size()[0]/2
-      corner_of_screen_y = player.dy - screen.get_size()[1]/2
-
-      corner_of_screen_x = Clamp.clamp(corner_of_screen_x, 0, bounds_x - screen.get_size()[0])
-      corner_of_screen_y = Clamp.clamp(corner_of_screen_y, 0, bounds_y - screen.get_size()[1])
-      
+   def move_equation(rect, surfaceImageEquation, equationObject):
+      corner_of_screen_x, corner_of_screen_y = RenderPlayer.return_corners_xy()
       rect.x = (player.dx - corner_of_screen_x) + (equationObject.length*0.3)  #distance away from player x
       rect.y = (player.dy - corner_of_screen_y) - (equationObject.height*0.3) #distance away from player y
       #AFTER HERE, THE DRAWING OF AN EQUATION CAN BE DONE

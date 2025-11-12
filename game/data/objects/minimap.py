@@ -1,7 +1,7 @@
 from game.modules.base_modules import *
 from game.modules.preloads import *
 class MiniMap:
-   def coordinates(player, player_rect, screen, enemy, enemy_rect):
+   def coordinates(player_rect, enemy, enemy_rect):
       player_coords = str((round(player.dx), round(player.dy)))
       player_rect_coords = str((player_rect.x, player_rect.y))
       enemy_coords = str((round(enemy.dx), round(enemy.dy)))

@@ -42,4 +42,4 @@ from game.data.objects.hitboxes import Hitbox
 from game.data.controls.control_operations import ControlOperations
 from game.data.function.generate_graph_plots import GeneratePlots
 from game.data.function.draw_function import DrawFunction
-
+from game.data.function.generate_func_image import GenerateFuncImage

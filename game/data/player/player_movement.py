@@ -6,13 +6,9 @@ accelerationf = 0.8 #0.8 is standard [favourite]
 deccelerationf = 0.2 #0.2 is standard [favourite]
 
 class PlayerMovement:
-   def player_movement(keystate, player):
-      
-      corner_of_screen_x = player.dx - screen.get_size()[0]/2
-      corner_of_screen_y = player.dy - screen.get_size()[1]/2
-
-      corner_of_screen_x = Clamp.clamp(corner_of_screen_x, 0, bounds_x - screen.get_size()[0])
-      corner_of_screen_y = Clamp.clamp(corner_of_screen_y, 0, bounds_y - screen.get_size()[1])
+   def player_movement(keystate):
+      '''Move the player general_velocity*player.vx units in given direction [W, A, S, D] and draw an arrow in the direction of movement, speed them up by accelerationf every tick and slow them down by deccelerationf*player.vx every tick for fluid movement'''
+      corner_of_screen_x, corner_of_screen_y = RenderPlayer.return_corners_xy()
       x1 = ((player.dx - corner_of_screen_x))
       y1 = ((player.dy - corner_of_screen_y))
       magnitude_arrow = 10
