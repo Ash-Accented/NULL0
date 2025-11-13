@@ -2,6 +2,7 @@ import pygame
 from game.modules.modules import *
 from game.data.function.generate_graph_plots import GeneratePlots
 class PlayerControls:
+   n = 5
    error = ""
    error_check = None
    color_default = ColorsManual.green
@@ -10,52 +11,47 @@ class PlayerControls:
    function_storage = []
    def player_operations(event, sympy_operation, enemy, equation_object, surface_image_equation):
       '''Handle key presses regarding operations done by the player, '''
-      x = Symbol('x', real=True)
-      
-      try:
-         func_graphable = GeneratePlots.check_errors(sympy_operation)
-         if func_graphable == True:
-            if event.key == pygame.K_1:
-               SoundEffects.sound_effect_interaction.play()
-               sympy_operation, surface_image_equation = OperationsSelf.operation_addition(equation_object, sympy_operation, 5)
-            elif event.key == pygame.K_2:
-               SoundEffects.sound_effect_interaction.play()
-               sympy_operation, surface_image_equation = OperationsSelf.operation_subtraction(equation_object, sympy_operation, 5)
-            elif event.key == pygame.K_3:
-               SoundEffects.sound_effect_interaction.play()
-               sympy_operation, surface_image_equation = OperationsSelf.operation_multiplication(equation_object, sympy_operation, 5)
-            elif event.key == pygame.K_4:
-               SoundEffects.sound_effect_interaction.play()
-               sympy_operation, surface_image_equation = OperationsSelf.operation_division(equation_object, sympy_operation, 0)
-            elif event.key == pygame.K_5:
-               SoundEffects.sound_effect_interaction.play()
-               sympy_operation, surface_image_equation = OperationsSelf.operation_to_power(equation_object, sympy_operation, 5)
-            elif event.key == pygame.K_6:
-               SoundEffects.sound_effect_interaction.play()
-               sympy_operation, surface_image_equation = OperationsSelf.operation_derivative(equation_object, sympy_operation)
-            elif event.key == pygame.K_7:
-               SoundEffects.sound_effect_interaction.play()
-               sympy_operation, surface_image_equation = OperationsSelf.operation_integration(equation_object, sympy_operation)
-            elif event.key == pygame.K_8:
-               SoundEffects.sound_effect_interaction.play()
-               sympy_operation, surface_image_equation = OperationsSelf.operation_exponentiated(equation_object, sympy_operation, 5)
-            elif event.key == pygame.K_9:
-               SoundEffects.sound_effect_interaction.play()
-               sympy_operation, surface_image_equation = OperationsSelf.operation_root(equation_object, sympy_operation, 5)
-            elif event.key == pygame.K_0:
-               SoundEffects.sound_effect_interaction.play()
-               sympy_operation, surface_image_equation = OperationsSelf.operation_evaluate(equation_object, sympy_operation, 10)
-            return(sympy_operation, surface_image_equation)
-         else:
-            SoundEffects.sound_effect_error.play()
-            return(sympy_operation, surface_image_equation)
-      except:
-         return(sympy_operation, surface_image_equation) 
+      func_graphable = GeneratePlots.check_errors(sympy_operation)
+      if func_graphable:
+         if event.key == pygame.K_1:
+            SoundEffects.sound_effect_interaction.play()
+            sympy_operation, surface_image_equation = OperationsSelf.operation_addition(equation_object, sympy_operation, PlayerControls.n)
+         elif event.key == pygame.K_2:
+            SoundEffects.sound_effect_interaction.play()
+            sympy_operation, surface_image_equation = OperationsSelf.operation_subtraction(equation_object, sympy_operation, PlayerControls.n)
+         elif event.key == pygame.K_3:
+            SoundEffects.sound_effect_interaction.play()
+            sympy_operation, surface_image_equation = OperationsSelf.operation_multiplication(equation_object, sympy_operation, PlayerControls.n)
+         elif event.key == pygame.K_4:
+            SoundEffects.sound_effect_interaction.play()
+            sympy_operation, surface_image_equation = OperationsSelf.operation_division(equation_object, sympy_operation, PlayerControls.n)
+         elif event.key == pygame.K_5:
+            SoundEffects.sound_effect_interaction.play()
+            sympy_operation, surface_image_equation = OperationsSelf.operation_to_power(equation_object, sympy_operation, PlayerControls.n)
+         elif event.key == pygame.K_6:
+            SoundEffects.sound_effect_interaction.play()
+            sympy_operation, surface_image_equation = OperationsSelf.operation_derivative(equation_object, sympy_operation)
+         elif event.key == pygame.K_7:
+            SoundEffects.sound_effect_interaction.play()
+            sympy_operation, surface_image_equation = OperationsSelf.operation_integration(equation_object, sympy_operation)
+         elif event.key == pygame.K_8:
+            SoundEffects.sound_effect_interaction.play()
+            sympy_operation, surface_image_equation = OperationsSelf.operation_exponentiated(equation_object, sympy_operation, PlayerControls.n)
+         elif event.key == pygame.K_9:
+            SoundEffects.sound_effect_interaction.play()
+            sympy_operation, surface_image_equation = OperationsSelf.operation_root(equation_object, sympy_operation, PlayerControls.n)
+         elif event.key == pygame.K_0:
+            SoundEffects.sound_effect_interaction.play()
+            sympy_operation, surface_image_equation = OperationsSelf.operation_evaluate(equation_object, sympy_operation, PlayerControls.n)
+         return(sympy_operation, surface_image_equation)
+      else:
+         SoundEffects.sound_effect_error.play()
+         return(sympy_operation, surface_image_equation)
    
    def player_func_draw(sympy_operation, equation_object, enemy, color_default):
       try:
          x = Symbol('x', real=True)
-         function_plots = PlayerFunc.player_func_detect(sympy_operation)
+         function_plots = PlayerFunc.player_func_detect(sympy_operation, PlayerControls.n)
          PlayerControls.function_storage = function_plots
          SoundEffects.sound_effect_function_draw.play()
          player_rect = RenderPlayer.render_player(player)

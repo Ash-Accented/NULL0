@@ -2,6 +2,7 @@ from game.modules.base_modules import *
 from game.modules.preloads import *
 class CheckFunctions:
    global error_message_true
+
    error_message_true = "INV"
    def integrate_und(sympy_expression, a, b):
       new = integrate(sympy_expression, (x, a, b))

@@ -13,6 +13,7 @@ import os.path #Compatibility for paths between linux and windows, as / \ mismat
 import math #EXCEPTION HANDLING
 from scipy.integrate import quad
 import numexpr
+import cmath
 #numpy.linspace[start, stop, number_of_points] [change from numpy.arange --> numpy.linspace]
 #Iterating through an array [depend on numpy's ability to iterate through the numbers themselves; augmented memory]
 

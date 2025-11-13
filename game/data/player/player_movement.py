@@ -1,7 +1,7 @@
 from game.modules.base_modules import *
 from game.modules.preloads import *
 player_max_speed = 100
-general_velocity = 2.6 #3.5 was original 
+general_velocity = 3.5 #3.5 was original 
 accelerationf = 0.8 #0.8 is standard [favourite]
 deccelerationf = 0.2 #0.2 is standard [favourite]
 
