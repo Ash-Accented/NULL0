@@ -4,7 +4,7 @@ class ColorsManual:
    dracula_purple = [224, 159, 255]
    red = [255, 0, 0]
    green = [0, 255, 0]
-   blue = [0, 0, 255]
+   blue = [48, 92, 222]
    white = [255, 255, 255]
    black = [0, 0, 0]
    dark_gray = [20, 20, 20]

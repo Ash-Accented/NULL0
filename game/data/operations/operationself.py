@@ -108,7 +108,6 @@ class OperationsSelf:
    pass
    
    def operation_evaluate(equation_object, sympy_expression, n):
-      x = Symbol('x', real=True)
       expression_new = sympy_expression.subs(x, n)
       latex_expr = EquationObject.sympy_to_latex(expression_new)
       EquationObject.latexeq_to_image(equation_object, latex_expr)

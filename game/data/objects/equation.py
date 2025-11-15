@@ -2,6 +2,7 @@ from game.modules.base_modules import *
 from game.modules.preloads import *
 class EquationObject:
    def __init__(self, length, height):
+      pygame.sprite.Sprite.__init__(self)
       self.length = length
       self.height = height
    pass

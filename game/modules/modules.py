@@ -14,6 +14,9 @@ import os.path
 import math 
 from scipy.integrate import quad
 import numexpr
+import random
+
+
 
 from common.player_brief import PlayerBrief
 from common.network_requests import NetworkObjectTypes, GetGames
@@ -21,7 +24,7 @@ from common.client_connection import ClientConnection
 from game.modules.clamp import Clamp 
 
 from game.data.background.background import bounds_x, bounds_y, grid_spacing, GridBackground
-from game.data.display.display import screen, display_info, display_flags, width, height
+from game.data.display.display import screen, window, display_info, display_flags, display_flags_window, width, height
 from game.data.display.frames import clock, framerate
 from game.data.player.player_render import player, player_size, player_border, player_scope_size, player_velocity_base, player_pos_init_x, player_pos_init_y, RenderPlayer
 from game.data.player.player_movement import PlayerMovement

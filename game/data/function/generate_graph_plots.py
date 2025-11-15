@@ -51,9 +51,9 @@ class GeneratePlots:
       lower_bound_y = (-1*bounds_y)/2
       upper_bound_y = bounds_y/2
      
-      lower_bound_x = -2
+      lower_bound_x = -10
       upper_bound_x = 10
-      dispersion_points = 275
+      dispersion_points = 500
       
       #x = Symbol('x', real=True)
       

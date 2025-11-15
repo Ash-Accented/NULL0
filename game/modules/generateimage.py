@@ -1,18 +1,19 @@
 from game.modules.base_modules import *
 from game.modules.preloads import *
 class GenerateImage:
-   def generate_img_latex(name_of_file, sympy_operation, equationObject):
-      path_desired = "game/images/operations/"
+
+   def generate_img_surface(name_of_file, sympy_operation, equationObject, path_desired):
       latex_expr = GenerateImage.sympy_to_latex(sympy_operation)
       GenerateImage.latexeq_to_image(equationObject, latex_expr, name_of_file, path_desired) #Saves equation to image png
-      
-
-
+      surface_image_equation = GenerateImage.render_equation_copy(equationObject, path_desired, name_of_file)
+      rect_surface_image_equation = surface_image_equation.get_rect()
+      return(latex_expr, surface_image_equation, rect_surface_image_equation)
 
 
 
 
    def sympy_to_latex(sympy_operation):
+      x = Symbol('x', real=True)      #Sets x as a symbol with real inputs only
       init_printing(use_unicode=False)
       latex_expr = latex(sympy_operation, mode='inline') #INLINE MODE IS CRUCIAL SEE DOCUMENTATION https://docs.sympy.org/latest/modules/printing.html#sympy.printing.latex.latex
        
@@ -20,7 +21,7 @@ class GenerateImage:
    pass
 
    def latexeq_to_image(equationObject, latex_expr, name_of_file, path_desired):
-      preview(latex_expr, viewer="file", filename=path_desired + name_of_file, euler=False, dvioptions=["-T", "tight", "-z", "0", "--truecolor", "-D 200", "-bg", "Transparent", "-fg", "rgb 0.8 0.7 1.0"]) #white 1/1/1; black 0/0/0;
+      preview(latex_expr, viewer="file", filename=path_desired + name_of_file, euler=False, dvioptions=["-T", "tight", "-z", "0", "--truecolor", "-D 200", "-bg", "Transparent", "-fg", "rgb 0.0 1.0 0.0"]) #white 1/1/1; black 0/0/0;
 
       imageResized = Image.open(path_desired + name_of_file)
       size = (equationObject.length, equationObject.height)

@@ -20,38 +20,41 @@ class ControlOperations:
       text_image_list = []
       text_image_pos_list = []
       for image in image_list:
-      
+         image.set_alpha(20)
          j = str(i)
          i += 1
          text_image = font_cmu_bld.render(j, True, (255, 255, 255))
-         text_image_pos = text_image.get_rect(x = (rect.x - 100), y = rect.y)
+         text_image_pos = text_image.get_rect(x = (rect.x), y = rect.y + i*200)
          text_image_list.append(text_image)
          text_image_pos_list.append(text_image_pos)
       return(image_list, text_image_list, text_image_pos_list)
    
-   def update_controls(image_list, text_image_list, text_image_pos_list, error, error_check):
-      dist_between_imgs_x = 160
+   def update_controls(image_list, text_image_list, text_image_pos_list, error, error_check, check_collision):
+      dist_between_imgs_x = 100
       perched_imgs_where_y = 100
       k = 0
-      m = 0
+      m = 1
+      text_control = font_cmu_rm.render("", True, (255, 0, 0))
+      text_control_pos = text_control.get_rect(x = (width//2 - 300), y = (height - 200))
+      
       for image in image_list:
+         j = str(m)
+         text_control = font_cmu_rm.render(j, True, ColorsManual.medium_purple)
+         text_control.set_alpha(125)
+         text_control_pos = text_control.get_rect(x = (k*dist_between_imgs_x + 50), y = (perched_imgs_where_y - 50))
+         image = pygame.transform.smoothscale_by(image, 0.5)
          rect = image.get_rect()
-         rect.x = (200 + k*dist_between_imgs_x)
+         window.blit(text_control, text_control_pos)
+         rect.x = (50 + k*dist_between_imgs_x)
          rect.y = (perched_imgs_where_y)
          text_image = text_image_list[k]
-         text_image_pos = text_image_pos_list[k]
-         if(error != "" and error_check == False):
-            if(error == "one" or error == "two"):
-               l = 6
-               image_list[l].set_alpha(100)
-               error_check = True
-            if(error == "three"):
-               l = 8
-               image_list[l].set_alpha(100) 
-               error_check = True
-         if(error == "" and error_check == True):
+         text_image_pos = text_image_pos_list[k] 
+         if(check_collision):
             image.set_alpha(255)
             error_check = False
-         screen.blit(image, rect)
+         else:
+            image.set_alpha(20) 
+         window.blit(image, rect)
          k += 1
+         m += 1
 

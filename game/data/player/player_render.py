@@ -3,7 +3,7 @@ from game.modules.base_modules import *
 #Unique modules
 from game.data.preload.colors import ColorsManual
 from game.data.background.background import bounds_x, bounds_y, grid_spacing, GridBackground
-from game.data.display.display import screen, display_info, display_flags, width, height
+from game.data.display.display import screen, window, display_info, display_flags, width, height
 from game.data.display.frames import clock, framerate
 
 player_velocity_base = 100
@@ -23,8 +23,8 @@ class RenderPlayer:
       '''
       #attempting to draw a player that is offscreen will not cause issues, so we don't need to check if they are onscreen, however the boundaries can be set through the attributes dx and dy respective to the player
       corner_of_screen_x, corner_of_screen_y = RenderPlayer.return_corners_xy()
-      player_rect = pygame.draw.circle(screen, (ColorsManual.medium_purple), (entity.dx - corner_of_screen_x, entity.dy - corner_of_screen_y), player_size, player_border) #draw a solid green circle on the screen with a radius of 20 centered on the entity's location relative to the player
-      player_scope_size_rect = pygame.draw.circle(screen, (ColorsManual.medium_purple), (entity.dx - corner_of_screen_x, entity.dy - corner_of_screen_y), player_scope_size, 0)
+      player_rect = pygame.draw.circle(window, (ColorsManual.medium_purple), (entity.dx - corner_of_screen_x, entity.dy - corner_of_screen_y), player_size, player_border) #draw a solid green circle on the screen with a radius of 20 centered on the entity's location relative to the player
+      player_scope_size_rect = pygame.draw.circle(window, (ColorsManual.medium_purple), (entity.dx - corner_of_screen_x, entity.dy - corner_of_screen_y), player_scope_size, 0)
       player_rect.x = player_rect.x + (player_rect.width//2)        #Align the coordinates of the rect to the coordinates of the player dx/dy attributes
       player_rect.y = player_rect.y + (player_rect.height//2)       #same
       return(player_rect)
