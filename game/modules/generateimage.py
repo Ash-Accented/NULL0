@@ -2,13 +2,13 @@ from game.modules.base_modules import *
 from game.modules.preloads import *
 class GenerateImage:
 
-   def generate_img_surface(name_of_file, sympy_operation, equationObject, path_desired):
-      latex_expr = GenerateImage.sympy_to_latex(sympy_operation)
-      GenerateImage.latexeq_to_image(equationObject, latex_expr, name_of_file, path_desired) #Saves equation to image png
-      surface_image_equation = GenerateImage.render_equation_copy(equationObject, path_desired, name_of_file)
+   def generate_img_surface(name_of_file, obj, path_desired):
+      latex_expr = GenerateImage.sympy_to_latex(obj.expr)
+      GenerateImage.latexeq_to_image(obj, latex_expr, name_of_file, path_desired) #Saves equation to image png
+      surface_image_equation = GenerateImage.render_equation_copy(obj, path_desired, name_of_file)
       rect_surface_image_equation = surface_image_equation.get_rect()
-      return(latex_expr, surface_image_equation, rect_surface_image_equation)
-
+      return(surface_image_equation, rect_surface_image_equation)
+      
 
 
 
@@ -24,7 +24,7 @@ class GenerateImage:
       preview(latex_expr, viewer="file", filename=path_desired + name_of_file, euler=False, dvioptions=["-T", "tight", "-z", "0", "--truecolor", "-D 200", "-bg", "Transparent", "-fg", "rgb 0.0 1.0 0.0"]) #white 1/1/1; black 0/0/0;
 
       imageResized = Image.open(path_desired + name_of_file)
-      size = (equationObject.length, equationObject.height)
+      size = (equationObject.w, equationObject.h)
       imageResized.thumbnail(size, Image.Resampling.LANCZOS)
       out_dim = imageResized.size
       imageResized.save(path_desired + name_of_file,"PNG")
@@ -32,8 +32,8 @@ class GenerateImage:
       
    pass
 
-   def render_equation_copy(equationObject, path_desired, name_of_file):
-      surfaceImageEquation = pygame.Surface((equationObject.length, equationObject.height))
+   def render_equation_copy(obj, path_desired, name_of_file):
+      surfaceImageEquation = pygame.Surface((obj.w, obj.h))
       surfaceImageEquation.fill((255, 255, 255))
       surfaceImageEquation = pygame.image.load(os.path.join(path_desired + name_of_file)) #Make initial surface containing the player's equation
       return(surfaceImageEquation.convert_alpha())

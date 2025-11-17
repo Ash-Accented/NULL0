@@ -1,6 +1,10 @@
 from game.modules.base_modules import *
 from game.modules.preloads import *
 from game.data.objects.background_origin import BackgroundOrigin
+from game.data.methodsandvars.init_vars import InitializeVars
+from game.data.objects.staticpoint import StaticPoint
+from game.data.objects.enemy import Enemy
+from game.data.objects.hitboxes import Hitbox
 class DrawFunction:
    
    def draw_ind_line(point_list, j):
@@ -21,10 +25,19 @@ class DrawFunction:
       x_15, y_15 = point_list[0, j + 14], point_list[1, j + 14]
       x_16, y_16 = point_list[0, j + 15], point_list[1, j + 15]
       line_list = [(x_1, y_1), (x_2, y_2), (x_3, y_3), (x_4, y_4), (x_5, y_5), (x_6, y_6), (x_7, y_7), (x_8, y_8), (x_9, y_9), (x_10, y_10), (x_11, y_11), (x_12, y_12), (x_13, y_13), (x_14, y_14), (x_15, y_15), (x_16, y_16)]
-      line_comb_surface = pygame.draw.lines(window, ColorsManual.dracula_purple, False, line_list, width=3)
+      line_comb_surface = pygame.draw.lines(window, ColorsManual.red, False, line_list, width=3)
       return(line_comb_surface)
-      
-   def render_graph(point_list, enemy_rect_hitbox, background_origin): #Render points through the use of this method, with x and y coordinates
+
+
+   def upd_enemy_obj():
+      for obj in InitializeVars.enemy_sprites:
+         obj.drx, obj.dry = BackgroundOrigin.rect_alignment_orig(obj, InitializeVars.background_origin)
+         obj.rendered_rect = Enemy.draw_record_enemy(InitializeVars.background_origin, obj, InitializeVars.color_default)
+         obj.rect = obj.rendered_rect
+         obj.rendered_rect = StaticPoint.fix_drawn_rect(obj.rendered_rect)
+         obj.hitbox = Hitbox.hitbox_draw_entity_circle(obj)
+
+   def render_graph(point_list): #Render points through the use of this method, with x and y coordinates
       check_hit = None
       #ERROR SURFACE AND TEXT INDICATOR
       font_cmu_rm = pygame.font.Font('game/resources/fonts/cmunrm.ttf', 30)
@@ -39,20 +52,21 @@ class DrawFunction:
          function_array_part = DrawFunction.draw_ind_line(point_list, j)
          function_array.append(function_array_part)
          player_rect = RenderPlayer.render_player(player)
-         BackgroundOrigin.draw_background_origin(background_origin, player_rect)
-         pygame.display.flip()
-         j = j + 9
-         clock.tick(framerate)
-         check_hit = DrawFunction.collision_detect_func(enemy_rect_hitbox, function_array)
+         BackgroundOrigin.draw_background_origin(InitializeVars.background_origin)
+         DrawFunction.upd_enemy_obj()
+         check_hit = DrawFunction.collision_detect_func(function_array)
          if check_hit:
             return(check_hit)
-
+         pygame.display.flip()
+         j = j + 15
+         clock.tick(framerate)
+      return(check_hit)
    pass
 
-   def collision_detect_func(enemy_rect_hitbox, function_array):
-      if (pygame.Rect.collidelist(enemy_rect_hitbox, function_array) == -1):
+   def collision_detect_func(function_array):
+      for obj in InitializeVars.enemy_sprites:
          check_hit = False
-         return(check_hit)
-      else:
-         check_hit = True
-         return(check_hit)
+         if pygame.Rect.collidelist(obj.hitbox, function_array) != -1:
+            check_hit = True
+            return(check_hit)
+      return(check_hit) 

@@ -10,7 +10,7 @@ from sympy.abc import x
 from sympy.testing.pytest import ignore_warnings
 import numpy as np 
 from PIL import Image 
-import os.path 
+import os
 import math 
 from scipy.integrate import quad
 import numexpr
@@ -44,5 +44,5 @@ from game.data.objects.minimap import MiniMap
 from game.data.objects.hitboxes import Hitbox
 from game.data.controls.control_operations import ControlOperations
 from game.data.function.generate_graph_plots import GeneratePlots
-from game.data.function.draw_function import DrawFunction
-from game.data.function.generate_func_image import GenerateFuncImage
+from game.data.objects.staticpoint import StaticPoint
+

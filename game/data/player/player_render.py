@@ -6,17 +6,19 @@ from game.data.background.background import bounds_x, bounds_y, grid_spacing, Gr
 from game.data.display.display import screen, window, display_info, display_flags, width, height
 from game.data.display.frames import clock, framerate
 
+
 player_velocity_base = 100
 player_pos_init_x, player_pos_init_y = [0, 0]
 player_size = 20
 player_border = 5
 player_scope_size = 5       #Scope for player to align their function drawings more accurately
-
 player = PlayerBrief()
-player.from_data(player_pos_init_x, player_pos_init_y, player_velocity_base, player_velocity_base)
-
+player_rect = 0
+player_hitbox = 0
+player.from_data(player_pos_init_x, player_pos_init_y, player_velocity_base, player_velocity_base, player_size)
 
 class RenderPlayer:
+
    def render_player(entity):
       '''
       Render the rect representing the player on the screen

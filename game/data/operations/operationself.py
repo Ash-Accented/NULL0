@@ -2,119 +2,68 @@ from game.modules.base_modules import *
 from game.modules.preloads import *
 from game.data.objects.equation import EquationObject
 class OperationsSelf:
-   def operation_addition(equation_object, sympy_expression, n):
+
+   def operation_equation(eq_obj, n, operation_num):
       x = Symbol('x', real=True)
-      sympy_expression_new = simplify(sympy_expression + n)
-      latex_expr = EquationObject.sympy_to_latex(sympy_expression_new)
-      EquationObject.latexeq_to_image(equation_object, latex_expr)
-      surface_image_equation = EquationObject.render_equation_copy(equation_object)
-      rect = surface_image_equation.get_rect()
-      return(sympy_expression_new, surface_image_equation)
+      match operation_num:
+         case 1:
+            eq_obj.expr = simplify(eq_obj.expr + n)
+         case 2:
+            eq_obj.expr = simplify(eq_obj.expr - n)
+         case 3:
+            eq_obj.expr = simplify(eq_obj.expr*n)
+         case 4:
+            eq_obj.expr = simplify(eq_obj.expr/n)
+         case 5:
+            eq_obj.expr = simplify(eq_obj.expr**n)
+         case 6:
+            eq_obj.expr = simplify(diff(eq_obj.expr))
+         case 7:
+            eq_obj.expr = integrate(eq_obj.expr)
+         case 8:
+            eq_obj.expr = simplify(n**eq_obj.expr)
+         case 9:
+            x = Symbol('x')
+            eq_obj.expr = simplify(root(eq_obj.expr, n))
+         case 10:
+            x = Symbol('x')
+            eq_obj.expr = eq_obj.expr.subs(x, n)
       
-      pygame.display.flip() 
-   pass
+      latex_expr = EquationObject.sympy_to_latex(eq_obj)
+      EquationObject.latexeq_to_image(eq_obj)
+      eq_obj.surf = EquationObject.render_equation_copy(eq_obj)
+      eq_obj.rend_rect = eq_obj.surf.get_rect()
+      return(eq_obj.expr, eq_obj.surf)
 
-   def operation_subtraction(equation_object, sympy_expression, n):
+
+   def operation_expr(expr, n, operation_num):
       x = Symbol('x', real=True)
-      sympy_expression_new = simplify(sympy_expression - n)
-      latex_expr = EquationObject.sympy_to_latex(sympy_expression_new)
-      EquationObject.latexeq_to_image(equation_object, latex_expr)
-      surface_image_equation = EquationObject.render_equation_copy(equation_object)
-      rect = surface_image_equation.get_rect()
-      return(sympy_expression_new, surface_image_equation)
-      
-      pygame.display.flip() 
-   pass
+      match operation_num:
+         case 1:
+            expr = simplify(expr + n)
+         case 2:
+            expr = simplify(expr - n)
+         case 3:
+            expr = simplify(expr*n)
+         case 4:
+            expr = simplify(expr/n)
+         case 5:
+            expr = simplify(expr**n)
+         case 6:
+            if n == x:
+               expr = simplify(diff(expr))
+         case 7:
+            if n == x:
+               expr = integrate(expr)
+         case 8:
+            expr = simplify(n**expr)
+         case 9:
+            x = Symbol('x')
+            expr = simplify(root(expr, n))
+         case 10:
+            x = Symbol('x')
+            expr = expr.subs(x, n)
 
-   def operation_multiplication(equation_object, sympy_expression, n):
-      x = Symbol('x', real=True)
-      sympy_expression_new = simplify(sympy_expression*n)
-      latex_expr = EquationObject.sympy_to_latex(sympy_expression_new)
-      EquationObject.latexeq_to_image(equation_object, latex_expr)
-      surface_image_equation = EquationObject.render_equation_copy(equation_object)
-      rect = surface_image_equation.get_rect()
-      return(sympy_expression_new, surface_image_equation)
-      
-      pygame.display.flip() 
-   pass
+      return(expr)
 
-   def operation_division(equation_object, sympy_expression, n):
-      x = Symbol('x', real=True)
-      sympy_expression_new = simplify(sympy_expression/n)
-      latex_expr = EquationObject.sympy_to_latex(sympy_expression_new)
-      EquationObject.latexeq_to_image(equation_object, latex_expr)
-      surface_image_equation = EquationObject.render_equation_copy(equation_object)
-      rect = surface_image_equation.get_rect()
-      return(sympy_expression_new, surface_image_equation)
-      pygame.display.flip() 
-   pass
-
-   def operation_to_power(equation_object, sympy_expression, n):
-      x = Symbol('x', real=True)
-      sympy_expression_new = simplify(sympy_expression**n)
-      latex_expr = EquationObject.sympy_to_latex(sympy_expression_new)
-      EquationObject.latexeq_to_image(equation_object, latex_expr)
-      surface_image_equation = EquationObject.render_equation_copy(equation_object)
-      rect = surface_image_equation.get_rect()
-      return(sympy_expression_new, surface_image_equation)
-      pygame.display.flip() 
-   pass
-
-   def operation_derivative(equation_object, sympy_expression):
-      x = Symbol('x', real=True)
-      sympy_expression_new = simplify(diff(sympy_expression))
-      latex_expr = EquationObject.sympy_to_latex(sympy_expression_new)
-      EquationObject.latexeq_to_image(equation_object, latex_expr)
-      surface_image_equation = EquationObject.render_equation_copy(equation_object)
-      rect = surface_image_equation.get_rect()
-      return(sympy_expression_new, surface_image_equation) 
-      pygame.display.flip() 
-   pass
-
-   def operation_integration(equation_object, sympy_expression):
-      x = Symbol('x', real=True)
-      sympy_expression_new = integrate(sympy_expression)
-      
-      latex_expr = EquationObject.sympy_to_latex(sympy_expression_new)
-      EquationObject.latexeq_to_image(equation_object, latex_expr)
-      surface_image_equation = EquationObject.render_equation_copy(equation_object)
-      rect = surface_image_equation.get_rect()
-      return(sympy_expression_new, surface_image_equation)
-        
-      
-      pygame.display.flip() 
-   pass
-
-   def operation_exponentiated(equation_object, sympy_expression, n):
-      x = Symbol('x', real=True)
-      sympy_expression_new = simplify(n**sympy_expression)
-      latex_expr = EquationObject.sympy_to_latex(sympy_expression_new)
-      EquationObject.latexeq_to_image(equation_object, latex_expr)
-      surface_image_equation = EquationObject.render_equation_copy(equation_object)
-      rect = surface_image_equation.get_rect()
-      return(sympy_expression_new, surface_image_equation)
-      
-      pygame.display.flip() 
-   pass
-
-   def operation_root(equation_object, sympy_expression, n):
-      sympy_expression_new = simplify(root(sympy_expression, n))
-      latex_expr = EquationObject.sympy_to_latex(sympy_expression_new)
-      EquationObject.latexeq_to_image(equation_object, latex_expr)
-      surface_image_equation = EquationObject.render_equation_copy(equation_object)
-      rect = surface_image_equation.get_rect()
-      pygame.display.flip()
-      return(sympy_expression_new, surface_image_equation)
-   pass
-   
-   def operation_evaluate(equation_object, sympy_expression, n):
-      expression_new = sympy_expression.subs(x, n)
-      latex_expr = EquationObject.sympy_to_latex(expression_new)
-      EquationObject.latexeq_to_image(equation_object, latex_expr)
-      surface_image_equation = EquationObject.render_equation_copy(equation_object)
-      rect = surface_image_equation.get_rect()
-      pygame.display.flip() 
-      return(expression_new, surface_image_equation)
-      
-   pass
 

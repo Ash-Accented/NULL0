@@ -17,15 +17,16 @@ class Hitbox:
       window.blit(Hitbox.surface_transparent, (0, 0))
 
       return(player_rect_hitbox, entity_rect_hitbox)
-
-   def hitbox_draw_entity(entity_rect, entity_coords):
-      width, height = screen.get_size()
-      x, y = entity_coords
-      entity_rect_hitbox = pygame.draw.rect(Hitbox.surface_transparent, ColorsManual.blue, ((x, y), (entity_rect.width, entity_rect.height)), 1)
-      window.blit(Hitbox.surface_transparent, (x, y))
+   
+   def hitbox_draw_entity_circle(entity):
+      entity_rect_hitbox = pygame.draw.rect(window, ColorsManual.blue, ((entity.drx - entity.r, entity.dry - entity.r), (entity.w, entity.h)), 1)
       return(entity_rect_hitbox)
-   def check_collision(entity_rect, entity_other_rect):
+   def hitbox_draw_entity(entity):
+      entity_rect_hitbox = pygame.draw.rect(window, ColorsManual.blue, ((entity.drx, entity.dry), (entity.w, entity.h)), 1)
+      #window.blit(Hitbox.surface_transparent, (entity.drx, entity.dry))
+      return(entity_rect_hitbox)
+   def check_collision(obj, other_obj):
       check_collision = False
-      if pygame.Rect.colliderect(entity_rect, entity_other_rect):
+      if pygame.Rect.colliderect(obj.hitbox, other_obj.hitbox):
          check_collision = True 
       return(check_collision)
