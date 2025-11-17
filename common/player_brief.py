@@ -2,7 +2,7 @@ class PlayerBrief:
     """
     A brief summary of information about a player for passing over the network that contains enough information to render client side
     """
-    def from_data(self, vx, vy, dx, dy, radius):
+    def from_data(self, vx, vy, dx, dy, radius, color, color_eq, character):
         """
         Package data about a player into a PlayerBrief
         """
@@ -15,6 +15,9 @@ class PlayerBrief:
         self.w, self.h = self.r*2, self.r*2
         self.rendered_rect = None
         self.hitbox = None
+        self.color = color
+        self.color_eq = color_eq
+        self.character = character
     def to_bytes(self):
         """
         Convert a PlayerBrief into a bytearray and return it

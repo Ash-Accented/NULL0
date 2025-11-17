@@ -21,7 +21,7 @@ class GenerateImage:
    pass
 
    def latexeq_to_image(equationObject, latex_expr, name_of_file, path_desired):
-      preview(latex_expr, viewer="file", filename=path_desired + name_of_file, euler=False, dvioptions=["-T", "tight", "-z", "0", "--truecolor", "-D 200", "-bg", "Transparent", "-fg", "rgb 0.0 1.0 0.0"]) #white 1/1/1; black 0/0/0;
+      preview(latex_expr, viewer="file", filename=path_desired + name_of_file, euler=False, dvioptions=["-T", "tight", "-z", "0", "--truecolor", "-D 200", "-bg", "Transparent", "-fg", player.color_eq]) #white 1/1/1; black 0/0/0;
 
       imageResized = Image.open(path_desired + name_of_file)
       size = (equationObject.w, equationObject.h)

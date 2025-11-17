@@ -34,6 +34,7 @@ class GameRunning:
                if event.key == pygame.K_1 or event.key == pygame.K_2 or event.key == pygame.K_3 or event.key == pygame.K_4 or event.key == pygame.K_5 or event.key == pygame.K_6 or event.key == pygame.K_7 or event.key == pygame.K_8 or event.key == pygame.K_9 or event.key == pygame.K_0:
                   chck, n = WhilstMethods.check_expr_player_coll()
                   if chck and n != False:
+                     GameRunning.refresh_everything_in_game()
                      PC_GAMERUN.player_operations(n.expr, event)
                      window.blit(InitializeVars.equation_sprite.sprites()[0].surf, (InitializeVars.equation_sprite.sprites()[0].rend_rect))
                      WhilstMethods.if_used_rand_expr(n.index, n.num)
@@ -53,7 +54,8 @@ class GameRunning:
       UpdateMethods.upd_rand_expr_obj()
       UpdateMethods.upd_ctrl_opra()
       UpdateMethods.upd_mm()
-
+      UpdateMethods.upd_func()
+      UpdateMethods.upd_player_clr()
       if(len(InitializeVars.rand_expr_sprites) == 0):
          UpdateMethods.create_rand_expr_objs(3)
       elif(InitializeVars.dt_refresh_gen >= InitializeVars.time_counter*1) and len(InitializeVars.rand_expr_sprites) < 3:

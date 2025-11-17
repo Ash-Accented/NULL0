@@ -45,13 +45,10 @@ class GeneratePlots:
             #gen_counter += 1
 
 
-   def generate_plots(sympy_expression, n):
+   def generate_plots(sympy_expression, n, lower_bound_x, upper_bound_x, lower_bound_y, upper_bound_y, dispersion_points):
       corner_x, corner_y = RenderPlayer.return_corners_xy()
       
      
-      lower_bound_x = -10
-      upper_bound_x = 10
-      dispersion_points = 500
       
       #x = Symbol('x', real=True)
       
@@ -59,8 +56,7 @@ class GeneratePlots:
       player_pos_x = (player.dx - corner_x)
       player_pos_y = (player.dy - corner_y)
       scale = grid_spacing
-      lower_bound_y = player_pos_y + (-1*bounds_y)/2
-      upper_bound_y = player_pos_y + bounds_y/2
+
 
 
 

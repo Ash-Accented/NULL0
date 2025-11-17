@@ -19,6 +19,8 @@ class UpdateMethods:
       InitializeVars.background_origin = BackgroundOrigin.draw_background_origin(InitializeVars.background_origin)
    def create_eq_obj():
       eq_obj = EquationObject(400, 400)
+      eq_obj.expr = player.character
+      eq_obj.character = player.character
       eq_obj.latex, eq_obj.surf, eq_obj.rend_rect = EquationObject.generate_new_equation(eq_obj)
       InitializeVars.equation_sprite.add(eq_obj)
    def upd_pos_eq_obj():
@@ -75,17 +77,82 @@ class UpdateMethods:
          obj.rect = obj.rendered_rect
          obj.rendered_rect = StaticPoint.fix_drawn_rect(obj.rendered_rect)
          obj.hitbox = Hitbox.hitbox_draw_entity_circle(obj)
-   
+
+   def upd_player_clr():
+      if player.character == pi:
+         player.color = ColorsManual.blue_pi
+         player.color_eq = ColorsManual.blue_pi_eq
+      elif player.character == exp(1):
+         player.color = ColorsManual.sage_e
+         player.color_eq = ColorsManual.sage_e_eq
+      elif player.character == root(2, 2):
+         player.color = ColorsManual.purp_root
+         player.color_eq = ColorsManual.purp_root_eq
+      elif player.character == GoldenRatio:
+         player.color = ColorsManual.amber_gr
+         player.color_eq = ColorsManual.amber_gr_eq
    def upd_player(keystate):
       PlayerMovement.player_movement(keystate)
+      k = 0.25
+      line_y_axis = pygame.draw.line(window, (k*player.color[0], k*player.color[1], k*player.color[2]), (player.drx, player.dry + 250), (player.drx, player.dry - 250))
+      for i in range(-4, 5):
+         lines_x = pygame.draw.line(window, (k*player.color[0], k*player.color[1], k*player.color[2]), (player.drx + i*grid_spacing, player.dry + grid_spacing//4), (player.drx + i*grid_spacing, player.dry))
+         lines_y = pygame.draw.line(window, (k*player.color[0], k*player.color[1], k*player.color[2]), (player.drx + grid_spacing//4, player.dry + i*grid_spacing), (player.drx, player.dry + i*grid_spacing)) 
+      line_x_axis = pygame.draw.line(window, (k*player.color[0], k*player.color[1], k*player.color[2]), (player.drx + 250, player.dry), (player.drx - 250, player.dry))
+
       player.rendered_rect = RenderPlayer.render_player(player)
       player.drx, player.dry = player.rendered_rect.x, player.rendered_rect.y
       player.hitbox = Hitbox.hitbox_draw_entity_circle(player)
-
    def upd_player_hitbox():
       player.rendered_rect = RenderPlayer.render_player(player)
       player.hitbox = Hitbox.hitbox_draw_entity_circle(player)
+   def upd_func():
+      k = 0.4
+      eq = InitializeVars.equation_sprite.sprites()[0]
+      corner_x, corner_y = RenderPlayer.return_corners_xy()
+      player_pos_x = (player.dx - corner_x)
+      player_pos_y = (player.dy - corner_y)
+      
+      lwr_bound_x = -5
+      uppr_bound_x = 10
+      lwr_bound_y = 1
+      uppr_bound_y = -1
+      disp = 50
+      try:
+         point_list = GeneratePlots.generate_plots(eq.expr, 1, lwr_bound_x, uppr_bound_x, lwr_bound_y, uppr_bound_y, disp) #
+         for i in range(0, (len(point_list[0,]) - 20)):
+            x1, y1 = point_list[0, i], point_list[1, i]
+            line_comb_surface = pygame.draw.circle(window, (k*255, 0, 0), (x1, y1), 1)
+      except KeyError as e:
+         try:
+            expr = N(eq.expr, 8)
+            point_list = GeneratePlots.generate_plots(expr, 1, lwr_bound_x, uppr_bound_x, lwr_bound_y, uppr_bound_y, disp) #
+            for i in range(0, (len(point_list[0,]) - 20)):
+               x1, y1 = point_list[0, i], point_list[1, i]
+               line_comb_surface = pygame.draw.circle(window, (k*255, 0, 0), (x1, y1), 1)
+         except KeyError as e:
+            eq.expr = eq.character
+            EquationObject.generate_new_equation(eq)
+            SoundEffects.sound_effect_error.play()
+            print(e)
 
+      except SyntaxError as e:
+         eq.expr = eq.character
+         EquationObject.generate_new_equation(eq)
+         SoundEffects.sound_effect_error.play()
+         print(e) 
+      except OverflowError as e:
+         window.blit(PlayerControls.text_disc, PlayerControls.text_disc_pos)
+         eq_obj.expr = eq.character
+         EquationObject.generate_new_equation(eq)
+         SoundEffects.sound_effect_error.play()
+         print(e)
+      except TypeError as e:
+         window.blit(PlayerControls.text_disc, PlayerControls.text_disc_pos)
+         eq.expr = eq.character
+         EquationObject.generate_new_equation(eq)
+         SoundEffects.sound_effect_error.play()
+         print(e)
 ##########################################################################################
 
 

@@ -6,7 +6,7 @@ from game.data.methodsandvars.init_vars import InitializeVars
 class RandExpressions(pygame.sprite.Sprite):
    x = Symbol('x')
    set_irr_constants = [E, pi, root(2, 2), GoldenRatio]
-   list_x = [x, 1, 1, 1, 1]
+   list_x = [x, sin(x), log(x), tan(x)]
    expr_const = random.choice(set_irr_constants)
    expr_int = random.randrange(1, 100)
    #FINISHED
@@ -31,10 +31,9 @@ class RandExpressions(pygame.sprite.Sprite):
       expr_const_num = OperationsSelf.operation_expr(RandExpressions.expr_const, RandExpressions.expr_int, op_one)
       random.shuffle(RandExpressions.list_x)
       RandExpressions.set_rand_var = random.choice(RandExpressions.list_x)
-      if RandExpressions.set_rand_var == x:
-         expr = OperationsSelf.operation_expr(expr_const_num, RandExpressions.set_rand_var, op_two)
-      else:
-         expr = expr_const_num
+      expr = OperationsSelf.operation_expr(expr_const_num, RandExpressions.set_rand_var, op_two)
+      #else:
+         #expr = expr_const_num
       name_of_file = 'temp' + str(rand_expr_obj.num)
       rand_expr_obj.expr = expr
       #We want to blit the rect surface image upon a static point on the plane (defined by )

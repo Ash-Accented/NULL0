@@ -5,27 +5,46 @@ from game.data.methodsandvars.init_vars import InitializeVars
 from game.data.objects.staticpoint import StaticPoint
 from game.data.objects.enemy import Enemy
 from game.data.objects.hitboxes import Hitbox
+from game.data.player.player_movement import PlayerMovement
 class DrawFunction:
-   
+  
+   def draw_axes(point_list):
+      k = 0
+      line_list = []
+      for i in range(0, (len(point_list[0,]) - 20)):
+         x1, y1 = point_list[0, i], point_list[1, i]
+         line_comb_surface = pygame.draw.circle(window, (255, 0, 0), (x1, y1), 1)
+         
+      while k < 0.9:
+         player.rendered_rect = RenderPlayer.render_player(player)
+         BackgroundOrigin.draw_background_origin(InitializeVars.background_origin)
+         DrawFunction.upd_enemy_obj()
+         k += 0.05
+         line_y_axis = pygame.draw.line(window, (k*player.color[0], k*player.color[1], k*player.color[2]), (player.drx, player.dry + 250), (player.drx, player.dry - 250))
+         for i in range(-4, 5):
+            lines_x = pygame.draw.line(window, (k*player.color[0], k*player.color[1], k*player.color[2]), (player.drx + i*grid_spacing, player.dry + grid_spacing//4), (player.drx + i*grid_spacing, player.dry))
+            lines_y = pygame.draw.line(window, (k*player.color[0], k*player.color[1], k*player.color[2]), (player.drx + grid_spacing//4, player.dry + i*grid_spacing), (player.drx, player.dry + i*grid_spacing)) 
+         line_x_axis = pygame.draw.line(window, (k*player.color[0], k*player.color[1], k*player.color[2]), (player.drx + 250, player.dry), (player.drx - 250, player.dry))
+         clock.tick(framerate)
+         pygame.display.flip()
    def draw_ind_line(point_list, j):
-      x_1, y_1 = point_list[0, j], point_list[1, j]
-      x_2, y_2 = point_list[0, j + 1], point_list[1, j + 1]
-      x_3, y_3 = point_list[0, j + 2], point_list[1, j + 2]
-      x_4, y_4 = point_list[0, j + 3], point_list[1, j + 3]
-      x_5, y_5 = point_list[0, j + 4], point_list[1, j + 4]
-      x_6, y_6 = point_list[0, j + 5], point_list[1, j + 5]
-      x_7, y_7 = point_list[0, j + 6], point_list[1, j + 6]
-      x_8, y_8 = point_list[0, j + 7], point_list[1, j + 7]
-      x_9, y_9 = point_list[0, j + 8], point_list[1, j + 8]
-      x_10, y_10 = point_list[0, j + 9], point_list[1, j + 9]
-      x_11, y_11 = point_list[0, j + 10], point_list[1, j + 10]
-      x_12, y_12 = point_list[0, j + 11], point_list[1, j + 11]
-      x_13, y_13 = point_list[0, j + 12], point_list[1, j + 12]
-      x_14, y_14 = point_list[0, j + 13], point_list[1, j + 13]
-      x_15, y_15 = point_list[0, j + 14], point_list[1, j + 14]
-      x_16, y_16 = point_list[0, j + 15], point_list[1, j + 15]
-      line_list = [(x_1, y_1), (x_2, y_2), (x_3, y_3), (x_4, y_4), (x_5, y_5), (x_6, y_6), (x_7, y_7), (x_8, y_8), (x_9, y_9), (x_10, y_10), (x_11, y_11), (x_12, y_12), (x_13, y_13), (x_14, y_14), (x_15, y_15), (x_16, y_16)]
-      line_comb_surface = pygame.draw.lines(window, ColorsManual.red, False, line_list, width=3)
+      line_list = []
+      for i in range(0, 13):
+         x_1, y_1 = point_list[0, j + i], point_list[1, j + i]
+         x_2, y_2 = point_list[0, j + i + 1], point_list[1, j + i + 1]
+         d_x_2 = x_2 - x_1
+         d_y_2 = y_2 - y_1
+         if (abs(d_y_2) < 2000):
+            line_list.append((x_1, y_1))
+         else:
+            line_comb_surface = pygame.draw.circle(window, player.color, (x_1, y_1), 2)
+      try:
+         line_comb_surface = pygame.draw.lines(window, (player.color), False, line_list, width=4)
+      except ValueError as e:
+         print(e)
+         for i in range(0, 13):
+            x1, y1 = point_list[0, i], point_list[1, i]
+            line_comb_surface = pygame.draw.circle(window, player.color, (x1, y1), 2)
       return(line_comb_surface)
 
 
@@ -48,7 +67,9 @@ class DrawFunction:
       function_array = []#store rects of combined line drawings for collision detection
       length_point_list = np.size(point_list[0])
       j = 0
-      while j < (length_point_list - 15):
+      
+      DrawFunction.draw_axes(point_list)
+      while j < (length_point_list - 12):
          function_array_part = DrawFunction.draw_ind_line(point_list, j)
          function_array.append(function_array_part)
          player_rect = RenderPlayer.render_player(player)
@@ -58,7 +79,7 @@ class DrawFunction:
          if check_hit:
             return(check_hit)
          pygame.display.flip()
-         j = j + 15
+         j = j + 12
          clock.tick(framerate)
       return(check_hit)
    pass

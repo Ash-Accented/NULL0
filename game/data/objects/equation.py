@@ -6,6 +6,7 @@ class EquationObject(pygame.sprite.Sprite):
       self.w = w
       self.h = h
       self.expr = E
+      self.character = self.expr
       self.latex, self.surf, self.rend_rect = EquationObject.generate_new_equation(self)
    pass
 
@@ -34,7 +35,7 @@ class EquationObject(pygame.sprite.Sprite):
       return(eq_obj.surf.convert_alpha())
    
    def latexeq_to_image(eq_obj):
-      preview(eq_obj.latex, viewer="file", filename='game/images/equationtemp/temp.png', euler=False, dvioptions=["-T", "tight", "-z", "0", "--truecolor", "-D 200", "-bg", "Transparent", "-fg", "rgb 0.8 0.7 1.0"]) #white 1/1/1; black 0/0/0;
+      preview(eq_obj.latex, viewer="file", filename='game/images/equationtemp/temp.png', euler=False, dvioptions=["-T", "tight", "-z", "0", "--truecolor", "-D 200", "-bg", "Transparent", "-fg", player.color_eq]) #white 1/1/1; black 0/0/0;
       imageResized = Image.open("game/images/equationtemp/temp.png")
       size = (eq_obj.w, eq_obj.h)
       imageResized.thumbnail(size, Image.Resampling.LANCZOS)
