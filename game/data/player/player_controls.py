@@ -74,6 +74,7 @@ class PlayerControls:
             SoundEffects.sound_effect_error.play()
             print(e)
       except TypeError as e:
+         print("abcdefg")
          PlayerControls.text_disc = font_cmu_rm.render("COMPLEX SOLUTIONS, RESETTING TO 1", True, (255, 0, 0))
          window.blit(PlayerControls.text_disc, PlayerControls.text_disc_pos)
          eq_obj.expr = exp(1)

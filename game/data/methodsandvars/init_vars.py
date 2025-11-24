@@ -9,13 +9,14 @@ class InitializeVars:
    rand_expr_sprites = pygame.sprite.Group()
    equation_sprite = pygame.sprite.GroupSingle()
    ctrl_opra_sprite = pygame.sprite.GroupSingle()
-
+   background_sprite = pygame.sprite.GroupSingle()
    dt_refresh_gen = 0
    dt_refresh_rand_expr = 0
    time_counter = 1
    max_rand_expr_sprites = 3
    background = GridBackground.gen_background()
-   background_origin = BackgroundOrigin((bounds_x//2 + grid_spacing), (bounds_y//2 + grid_spacing), 4) 
+   background_origin = BackgroundOrigin()
+   background_sprite.add(background_origin)
    
    color_default = ColorsManual.green
    

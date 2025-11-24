@@ -36,16 +36,16 @@ class UpdateMethods:
       InitializeVars.ctrl_opra_sprite.sprites()[0] = ctrl_obj
    def create_enemy_objs(objs):
       for i in range(objs):
-        enemy_obj = Enemy(random.randrange(100, 1800), random.randrange(100, 1800), 30)
+        enemy_obj = Enemy()
         enemy_obj.drx, enemy_obj.dry = BackgroundOrigin.rect_alignment_orig(enemy_obj, InitializeVars.background_origin)
-        enemy_obj.rendered_rect = pygame.draw.circle(window, ColorsManual.red, (enemy_obj.w, enemy_obj.h), enemy_obj.r)
-        enemy_obj.rend_rect = StaticPoint.fix_drawn_rect(enemy_obj.rend_rect)
+        enemy_obj.rect = pygame.draw.circle(window, ColorsManual.red, (enemy_obj.w, enemy_obj.h), enemy_obj.r)
+        enemy_obj.rect = StaticPoint.fix_drawn_rect(enemy_obj.rect)
         enemy_obj.hitbox = Hitbox.hitbox_draw_entity(enemy_obj)
         InitializeVars.enemy_sprites.add(enemy_obj)
    
    def create_rand_expr_objs(objs):
       for i in range(objs):
-         rand_expr_obj = RE(100, 100, i, i)
+         rand_expr_obj = RE(i, i)
          rand_expr_obj.dx, rand_expr_obj.dy = RE.rand_expression_regenerate()
          rand_expr_obj.expr, rand_expr_obj.surf, rand_expr_obj.drx, rand_expr_obj.dry, rand_expr_obj.rect = RE.rand_expression_generate(rand_expr_obj)
          rand_expr_obj.hitbox = Hitbox.hitbox_draw_entity(rand_expr_obj)
@@ -54,7 +54,7 @@ class UpdateMethods:
          InitializeVars.rand_expr_sprites.add(rand_expr_obj)
 
    def create_rand_expr_obj(num, index):
-      rand_expr_obj = RE(100, 100, num, index)
+      rand_expr_obj = RE(num, index)
       rand_expr_obj.dx, rand_expr_obj.dy = RE.rand_expression_regenerate()
       rand_expr_obj.expr, rand_expr_obj.surf, rand_expr_obj.drx, rand_expr_obj.dry, rand_expr_obj.rect = RE.rand_expression_generate(rand_expr_obj)
       rand_expr_obj.hitbox = Hitbox.hitbox_draw_entity(rand_expr_obj)
@@ -73,7 +73,7 @@ class UpdateMethods:
    def upd_enemy_obj():
       for obj in InitializeVars.enemy_sprites:
          obj.drx, obj.dry = BackgroundOrigin.rect_alignment_orig(obj, InitializeVars.background_origin)
-         obj.rendered_rect = Enemy.draw_record_enemy(InitializeVars.background_origin, obj, InitializeVars.color_default)
+         obj.rendered_rect = Enemy.draw_record_enemy(obj, InitializeVars.color_default)
          obj.rect = obj.rendered_rect
          obj.rendered_rect = StaticPoint.fix_drawn_rect(obj.rendered_rect)
          obj.hitbox = Hitbox.hitbox_draw_entity_circle(obj)
@@ -100,8 +100,8 @@ class UpdateMethods:
          lines_y = pygame.draw.line(window, (k*player.color[0], k*player.color[1], k*player.color[2]), (player.drx + grid_spacing//4, player.dry + i*grid_spacing), (player.drx, player.dry + i*grid_spacing)) 
       line_x_axis = pygame.draw.line(window, (k*player.color[0], k*player.color[1], k*player.color[2]), (player.drx + 250, player.dry), (player.drx - 250, player.dry))
 
-      player.rendered_rect = RenderPlayer.render_player(player)
-      player.drx, player.dry = player.rendered_rect.x, player.rendered_rect.y
+      player.rect = RenderPlayer.render_player(player)
+      player.drx, player.dry = player.rect.x, player.rect.y
       player.hitbox = Hitbox.hitbox_draw_entity_circle(player)
    def upd_player_hitbox():
       player.rendered_rect = RenderPlayer.render_player(player)

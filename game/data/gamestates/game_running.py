@@ -15,6 +15,7 @@ class GameRunning:
    
    def game_ongoing():
       UpdateMethods.create_eq_obj()
+      UpdateMethods.upd_bgo()
       UpdateMethods.create_ctrl_opra()
       UpdateMethods.create_enemy_objs(1)
       UpdateMethods.create_rand_expr_objs(InitializeVars.max_rand_expr_sprites)

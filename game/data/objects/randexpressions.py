@@ -3,24 +3,27 @@ from game.modules.modules import *
 from game.data.objects.staticpoint import StaticPoint
 from game.data.objects.background_origin import BackgroundOrigin
 from game.data.methodsandvars.init_vars import InitializeVars
-class RandExpressions(pygame.sprite.Sprite):
+from game.data.objects.vessel import VesselRect
+class RandExpressions(VesselRect):
+   dx = random.randrange(100, 1800)
+   dy = random.randrange(100, 1800)
+   fill = 1
+   r = 100
+   w = 250
+   h = 250
    x = Symbol('x')
    set_irr_constants = [E, pi, root(2, 2), GoldenRatio]
    list_x = [x, sin(x), log(x), tan(x)]
    expr_const = random.choice(set_irr_constants)
    expr_int = random.randrange(1, 100)
    #FINISHED
-   def __init__(self, w, h, num, index):
-      pygame.sprite.Sprite.__init__(self)
-      self.dx, self.dy = RandExpressions.rand_expression_regenerate()
-      self.w = w
-      self.h = h
+   def __init__(self, num, index):
+      super().__init__(RandExpressions.dx, RandExpressions.dy, RandExpressions.fill, RandExpressions.w, RandExpressions.h)
       self.collide = False
       self.num = num
       self.index = index
+      #UPDATE THE VALS
       self.expr, self.surf, self.drx, self.dry, self.rect = RandExpressions.rand_expression_generate(self)
-      self.hitbox = Hitbox.hitbox_draw_entity(self)
-      
       #Boolean, true or false depending on conditions, false to begin with then set to true and subsequently unblitted
    def rand_expression_generate(rand_expr_obj):
       op_one = random.randrange(1, 10)

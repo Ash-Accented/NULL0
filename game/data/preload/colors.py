@@ -6,6 +6,8 @@ class ColorsManual:
    green = [0, 255, 0]
    blue = [48, 92, 222]
    white = [255, 255, 255]
+   white_eq = "rgb 0.0 0.0 0.0"
+
    black = [0, 0, 0]
    
    #CHARACTER-COLORS

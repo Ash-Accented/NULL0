@@ -5,17 +5,16 @@ from game.data.preload.colors import ColorsManual
 from game.data.background.background import bounds_x, bounds_y, grid_spacing, GridBackground
 from game.data.display.display import screen, window, display_info, display_flags, width, height
 from game.data.display.frames import clock, framerate
-
+from game.data.player.player import Player
 
 player_velocity_base = 100
 player_pos_init_x, player_pos_init_y = [0, 0]
 player_size = 20
 player_border = 5
 player_scope_size = 5       #Scope for player to align their function drawings more accurately
-player = PlayerBrief()
 player_rect = 0
 player_hitbox = 0
-player.from_data(player_pos_init_x, player_pos_init_y, player_velocity_base, player_velocity_base, player_size, ColorsManual.sage_e, ColorsManual.sage_e_eq, E)
+player = Player(E)
 
 class RenderPlayer:
 

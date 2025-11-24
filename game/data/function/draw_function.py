@@ -51,7 +51,7 @@ class DrawFunction:
    def upd_enemy_obj():
       for obj in InitializeVars.enemy_sprites:
          obj.drx, obj.dry = BackgroundOrigin.rect_alignment_orig(obj, InitializeVars.background_origin)
-         obj.rendered_rect = Enemy.draw_record_enemy(InitializeVars.background_origin, obj, InitializeVars.color_default)
+         obj.rendered_rect = Enemy.draw_record_enemy(obj, InitializeVars.color_default)
          obj.rect = obj.rendered_rect
          obj.rendered_rect = StaticPoint.fix_drawn_rect(obj.rendered_rect)
          obj.hitbox = Hitbox.hitbox_draw_entity_circle(obj)

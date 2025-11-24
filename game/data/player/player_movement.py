@@ -20,20 +20,20 @@ class PlayerMovement:
       height = magnitude_arrow
       
       if keystate[pygame.K_w] and player.dy > (grid_spacing + player_size): #if the key is pressed, accelerate the player in that direction
-         player.vy -= accelerationf #Increases the velocity attribute of the player by accelerationf amount in upward direction
+         player.vy -= player.accf #Increases the velocity attribute of the player by accelerationf amount in upward direction
          pygame.draw.polygon(screen, (0, 255, 0), ((x1, (y1 - magnitude_arrow) + distance_up ), (x1 + magnitude_arrow, y1 + distance_up), (x1 - magnitude_arrow, y1 + distance_up))) #Draw an arrow that dictates the direction of movement
       elif keystate[pygame.K_a] and player.dx > (grid_spacing + player_size):
-         player.vx -= accelerationf #same but leftward
+         player.vx -= player.accf #same but leftward
          pygame.draw.polygon(screen, (0, 255, 0), ((x1 + distance_left, y1 + magnitude_arrow), (x1 + distance_left, y1 - magnitude_arrow), (x1 + distance_left - magnitude_arrow, y1)))
       elif keystate[pygame.K_s] and player.dy < (bounds_y - (grid_spacing + player_size)):
-         player.vy += accelerationf #same but downward
+         player.vy += player.accf #same but downward
          pygame.draw.polygon(screen, (0, 255, 0), ((x1, (y1 + magnitude_arrow) + distance_down ), (x1 + magnitude_arrow, y1 + distance_down), (x1 - magnitude_arrow, y1 + distance_down)))
       elif keystate[pygame.K_d] and player.dx < (bounds_x - grid_spacing):
-         player.vx += accelerationf #same but rightward
+         player.vx += player.accf #same but rightward
          pygame.draw.polygon(screen, (0, 255, 0), ((x1 + distance_right, y1 + magnitude_arrow), (x1 + distance_right, y1 - magnitude_arrow), (x1 + distance_right + magnitude_arrow, y1)))
    
-      player.vx -= player.vx*deccelerationf #slowly slow down the player and limit top speed
-      player.vy -= player.vy*deccelerationf #same
+      player.vx -= player.vx*player.deccf #slowly slow down the player and limit top speed
+      player.vy -= player.vy*player.deccf #same
 
       player.dx += (player.vx*general_velocity) #move the player by velocity units every tick
       player.dy += (player.vy*general_velocity)
