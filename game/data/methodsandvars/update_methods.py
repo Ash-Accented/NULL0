@@ -6,7 +6,7 @@ from game.data.objects.staticpoint import StaticPoint
 from game.data.objects.background_origin import BackgroundOrigin
 from game.data.objects.control_operations import ControlOperations
 from game.data.objects.randexpressions import RandExpressions as RE
-
+from game.data.objects.test import Test
 
 
 
@@ -15,6 +15,8 @@ from game.data.objects.randexpressions import RandExpressions as RE
 class UpdateMethods:
    def upd_mm():
       MiniMap.coordinates()
+      test.dx, test.dy = (pygame.mouse.get_pos()[0]), (pygame.mouse.get_pos()[1])
+      test.rect = pygame.draw.line(window, ColorsManual.sage_e, (player.drx, player.dry), (test.dx, test.dy))
    def upd_bgo():
       InitializeVars.background_origin = BackgroundOrigin.draw_background_origin(InitializeVars.background_origin)
    def create_eq_obj():
@@ -92,6 +94,8 @@ class UpdateMethods:
          player.color = ColorsManual.amber_gr
          player.color_eq = ColorsManual.amber_gr_eq
    def upd_player(keystate):
+      test.dx, test.dy = (pygame.mouse.get_pos()[0]), (pygame.mouse.get_pos()[1])
+      test.rect = pygame.draw.line(window, ColorsManual.sage_e, (player.drx, player.dry), (test.dx, test.dy))
       PlayerMovement.player_movement(keystate)
       k = 0.25
       line_y_axis = pygame.draw.line(window, (k*player.color[0], k*player.color[1], k*player.color[2]), (player.drx, player.dry + 250), (player.drx, player.dry - 250))
@@ -103,6 +107,7 @@ class UpdateMethods:
       player.rect = RenderPlayer.render_player(player)
       player.drx, player.dry = player.rect.x, player.rect.y
       player.hitbox = Hitbox.hitbox_draw_entity_circle(player)
+      
    def upd_player_hitbox():
       player.rendered_rect = RenderPlayer.render_player(player)
       player.hitbox = Hitbox.hitbox_draw_entity_circle(player)

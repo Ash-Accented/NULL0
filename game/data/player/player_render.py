@@ -6,7 +6,7 @@ from game.data.background.background import bounds_x, bounds_y, grid_spacing, Gr
 from game.data.display.display import screen, window, display_info, display_flags, width, height
 from game.data.display.frames import clock, framerate
 from game.data.player.player import Player
-
+from game.data.objects.test import Test
 player_velocity_base = 100
 player_pos_init_x, player_pos_init_y = [0, 0]
 player_size = 20
@@ -15,7 +15,7 @@ player_scope_size = 5       #Scope for player to align their function drawings m
 player_rect = 0
 player_hitbox = 0
 player = Player(E)
-
+test = Test(player)
 class RenderPlayer:
 
    def render_player(entity):

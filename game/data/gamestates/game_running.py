@@ -29,6 +29,9 @@ class GameRunning:
          for event in pygame.event.get():
             if event.type == pygame.QUIT:
                quit = True
+            if event.type == pygame.mouse.get_focused():
+               test.dx, test.dy = (pygame.mouse.get_pos()[0]), (pygame.mouse.get_pos()[1])
+               test.rect = pygame.draw.line(window, ColorsManual.sage_e, (player.drx, player.dry), (test.dx, test.dy))
             if event.type == pygame.KEYDOWN:
                if event.key == pygame.K_SPACE:
                   WhilstMethods.if_key_space()
