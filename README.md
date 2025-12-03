@@ -13,7 +13,7 @@ Cloning and installing the game
 git clone https://github.com/Ash-Accented/NULL0/
 cd ./NULL0
 pip install -r requirements.txt 
-
+```
 Running the game
 ```shell
 python -m game.main
