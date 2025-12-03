@@ -5,7 +5,7 @@
 
 https://github.com/user-attachments/assets/67afdb0b-8c9f-4414-9896-e3b4a5c5a9ce
 
-<p align="center"> _**HOW TO INSTALL**_
+## <p align="center"> _**HOW TO INSTALL**_
 First, change to directory you wish to install with 'cd /path/desired'
 
 Cloning and installing the game
